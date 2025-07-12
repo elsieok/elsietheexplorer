@@ -1,0 +1,15 @@
+---
+title: "My First Blog Post"
+date: "2025-07-12"
+excerpt: "Welcome to the blog!"
+author: "Elsie"
+tags: ["monday", "initial commit", "web dev", "next js"]
+---
+
+Hello world! Welcome to ElsieThe Explorer! I will be using this blog to documents my journey in life which will hopefully have many branches! Thiis grand opening is coincidentally very well timed as it's actually my birthday today so wish me well (and send some cold hard cash if you so desire ;) )
+
+I just spent the last semester in Austrlia studying abroad and was lucky enough to have the opportunity to go to Indonesia and Thailand. There I caught the travel bug and so hopefully I will be lucky enough to go on many more adventures, enough to write a good decent number of posts about it, hence the travel.
+
+I'm a student majoring in computer science hoping to get a job industry and so obviously, I will be writing about that. See I was never planningn on doing computer science; for the longest time I wanted to do an MDPhD but for some reason I kept coming back. First, it was GCSE comp sci and I thought it would stop there. Then I got into CSCI054 in uni which wasn't easy with the lack of cs professors. Then I decided that since I'm in, I might as well take a couple more classes. What harm could that do? At some point I realised there was no point in denying it anymore. I was going to major in computer science but continue on the premed track. Eventually I came to my senses and switched career paths, however I will be finishing the pre med requirements just in case but it's unlikely... (Hence the tech).
+
+Phew, that was long! Finally, the talk. This is my blog and will remain somewhat informal in terms of what I decide to post - which is simply whatever. Nothing too crazy or polarising, future employers might see this. But I've always loved the idea of sharing my thoughts on such a media. It's like shouting into an empty void full of ears, if that makes sense. It's exhilarating and I can't wait to see what will become of this. And so with the introductions out of the way, let's get started!
