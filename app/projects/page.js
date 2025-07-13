@@ -13,7 +13,7 @@ export default async function ProjectsPage() {
                     My Projects
                 </h1>
                 <p className="text-gray-900 text-lg">
-                    Check out my work! Or visit my <Link href={'https://github.com/elsieok'} className="text-[#803635] hover:[#6B2D2C] hover:underline"> Github</Link> for more!
+                    Check out my work! Or visit my <Link href={'https://github.com/elsieok'} className="text-[#803635] hover:[#6B2D2C] hover:underline"> GitHub</Link> for more!
                 </p>
             </div>
 
