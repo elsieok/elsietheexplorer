@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ContentClient from "./PostContentClient";
+import ContentClient from "./ContentClient";
 
 export default function ProjectCard({ project }) {
     return (
@@ -27,12 +27,12 @@ export default function ProjectCard({ project }) {
                 {/* Links and source */}
                 <ul className="flex space-x-4">
                     <li>
-                        <Link href="https://example.com" className="text-gray-900 hover:underline">
+                        <Link href={`${project.link}`} className="text-gray-900 hover:underline">
                         Website
                         </Link>
                     </li>
                     <li>
-                        <Link href="https://example.com" className="text-gray-900 hover:underline">
+                        <Link href={`${project.source}`} className="text-gray-900 hover:underline">
                         Source
                         </Link>
                     </li>

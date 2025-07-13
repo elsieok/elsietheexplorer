@@ -16,7 +16,7 @@ export default function BlogCard({ post }) {
 
                 {/* Post.title */}
                 <h3 className="text-xl font-bold mb-3 text-gray-900">
-                    <Link href={`/blog/${post.slug}`} className="hover:text-[#6B2D2C] transition-colors">
+                    <Link href={`/blog/${post.slug}`} className="hover:text-[#6B2D2C] hover:underline transition-colors">
                     {post.title}
                     </Link>
                 </h3>
@@ -26,7 +26,7 @@ export default function BlogCard({ post }) {
                     {post.excerpt}
                     <br />
                     {/* Read more */}
-                    <Link href={`/blog/${post.slug}`} className="text-[#1C8694] hover:text-[#22A1B2] font-medium text-sm">
+                    <Link href={`/blog/${post.slug}`} className="text-[#1C8694] hover:text-[#22A1B2] hover:underline font-medium text-sm">
                     Read More...
                     </Link>
                 </p>

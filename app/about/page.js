@@ -8,15 +8,20 @@ export default function AboutPage() {
             </h1>
             <div className="prose prose-lg max-w-none text-gray-800">
                 <p>
-                    Hello world! I'm Elsie. That's it, short and sweet. I'm from Manchester and I'm a student at <Link href={"https://www.pomona.edu"} className="hover:underline">Pomona College</Link> studying computer science with a minor in chemistry. 
+                    Hello world! I&apos;m Elsie. That&apos;s it, short and sweet. I&apos;m from Manchester and I&apos;m a student at <Link href={"https://www.pomona.edu"}
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-[#803635] hover:[#6B2D2C] hover:underline">
+                    Pomona College
+                    </Link> studying computer science with a minor in chemistry. 
                 </p>
 
                 <p>
-                    My main hobbies include making music (right now it's really just trumpet, piano and production), playing rugby (badly), and walking long distances from my current location, wherever that may be at a given time. Beyond that, I'd probably be down for anything as long as the vibe's right.
+                    My main hobbies include making music (right now it&apos;s really just trumpet, piano and production), playing rugby (badly), and walking long distances from my current location, wherever that may be at a given time. Beyond that, I&apos;d probably be down for anything as long as the vibe&apos;s right.
                 </p>
 
                 <p>
-                    Currently, I'm working on a few personal <Link href={"/projects"} className="hover:underline">projects</Link>; nothing crazy, just trying to gain some hands-on experience in the tech world.
+                    Currently, I&apos;m working on a few personal <Link href={"/projects"} className="text-[#803635] hover:[#6B2D2C] hover:underline">projects</Link>; nothing crazy, just trying to gain some hands-on experience in the tech world.
                 </p>
             </div>
         </div>

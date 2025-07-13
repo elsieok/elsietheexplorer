@@ -1,28 +1,27 @@
-import { getAllPosts, getPostBySlug } from "@/lib/md";
-// import { MDXRemote } from "next-mdx-remote";
+import { getAllPosts, getPostBySlug } from "@/lib/mdx";
 import { format } from "date-fns";
-import ContentClient from "@/app/components/PostContentClient";
+import ContentClient from "@/app/components/ContentClient";
 
-// This function tells Next.js which blog posts exist
-export async function generateStaticParams() {
-    // Async functions are executed in a non-blocking way
-    // but can make code unpredictable and hard to read and debug.
-    const posts = getAllPosts();
-    return posts.map((post) => ({
-        slug: post.slug,
-    }));
-}
+// // This function tells Next.js which blog posts exist
+// export async function generateStaticParams() {
+//     // Async functions are executed in a non-blocking way
+//     // but can make code unpredictable and hard to read and debug.
+//     const posts = getAllPosts();
+//     return posts.map((post) => ({
+//         slug: post.slug,
+//     }));
+// }
 
-// This func sets the page metadata (title, description, etc.)
-export async function generateMetadata({ params }) {
-    const { slug } = await params;
-    const post = await getPostBySlug(slug);
+// // This func sets the page metadata (title, description, etc.)
+// export async function generateMetadata({ params }) {
+//     const { slug } = await params;
+//     const post = await getPostBySlug(slug);
 
-    return {
-        title: post.title,
-        description: post.excerpt,
-    }
-}
+//     return {
+//         title: post.title,
+//         description: post.excerpt,
+//     }
+// }
 
 export default async function BlogPost({ params}) {
     const { slug } = await params;

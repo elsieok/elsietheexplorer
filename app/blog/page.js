@@ -1,4 +1,4 @@
-import { getAllPosts } from "@/lib/md";
+import { getAllPosts } from "@/lib/mdx";
 import BlogCard from "../components/BlogCard";
 
 export default function BlogPage() {

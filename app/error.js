@@ -1,6 +1,7 @@
 'use client'; // this must be a client component
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 export default function GlobalError({ error, reset }) {
   useEffect(() => {
@@ -13,7 +14,7 @@ export default function GlobalError({ error, reset }) {
       <p className='text-gray-900'> Something went wrong. Please try again later. </p>
       <button onClick={() => reset()} className='text-gray-900 underline hover:text-[#6B2D2C]'>Try Again</button>
       <br />
-      <a href="/" className='text-gray-900 underline hover:text-[#6B2D2C]'>Go home</a>
+      <Link href="/" className='text-gray-900 underline hover:text-[#6B2D2C]'>Go home</Link>
     </div>
   );
 }
