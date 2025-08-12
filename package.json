@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "npx next-sitemap",
     "start": "next start",
     "lint": "next lint",
     "create-admin": "node lib/utils/create-admin.js",

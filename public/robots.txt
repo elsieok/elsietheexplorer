@@ -1,6 +1,7 @@
 # *
 User-agent: *
 Disallow: /admin
+Disallow: /admin/*
 
 # Host
 Host: https://www.elsietheexplorer.com
