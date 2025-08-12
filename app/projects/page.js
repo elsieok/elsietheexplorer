@@ -3,7 +3,8 @@ import ProjectCard from "../components/ProjectCard";
 import Link from "next/link";
 
 export default async function ProjectsPage() {
-    const projects = await getAllProjects()
+    const projects = []
+    // const projects = await getAllProjects()
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-12">
@@ -12,8 +13,11 @@ export default async function ProjectsPage() {
                 <h1 className="text-4xl font-bold mb-4 text-gray-900">
                     My Projects
                 </h1>
-                <p className="text-gray-900 text-lg">
-                    Check out my work! Or visit my <Link href={'https://github.com/elsieok'} className="text-[#803635] hover:[#6B2D2C] hover:underline"> GitHub</Link> for more!
+                <p className="text-gray-900 text-lg">Check out my stuff!</p> 
+                <p className="text-gray-900 text-lg"> You can also visit my <Link href={'https://github.com/elsieok'} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#803635] hover:[#6B2D2C] hover:underline"> GitHub</Link> for any source code.
                 </p>
             </div>
 

@@ -6,9 +6,9 @@ export default function ProjectCard({ project }) {
         <article className="bg-[#E2B9B8]/90 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             <div className="p-6">
 
-                {/* Project.title */}
+                {/* Project.name */}
                 <h3 className="text-xl font-bold mb-3 text-gray-900">
-                    {project.title}
+                    {project.name}
                 </h3>
 
                 {/** Project content */}
@@ -26,13 +26,21 @@ export default function ProjectCard({ project }) {
 
                 {/* Links and source */}
                 <ul className="flex space-x-4">
-                    <li>
-                        <Link href={`${project.link}`} className="text-gray-900 hover:underline">
+                    {project.link && (
+                        <li>
+                        <Link href={`${project.link}`}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-900 hover:underline">
                         Website
                         </Link>
                     </li>
+                    )}
                     <li>
-                        <Link href={`${project.source}`} className="text-gray-900 hover:underline">
+                        <Link href={`${project.source}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-900 hover:underline">
                         Source
                         </Link>
                     </li>

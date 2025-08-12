@@ -2,26 +2,40 @@
   "name": "elsiethe-explorer",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-admin": "node lib/utils/create-admin.js",
+    "seed": "node lib/db/seeds.js"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.16",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
+    "cookies": "^0.9.1",
+    "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^17.2.1",
     "gray-matter": "^4.0.3",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.539.0",
+    "mongoose": "^8.17.0",
     "next": "15.3.5",
     "next-mdx-remote": "^5.0.0",
+    "nodemailer": "^7.0.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icon": "^1.0.0",
+    "react-icons": "^5.5.0",
+    "tailwindcss": "^4.1.11",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
-    "eslint-config-next": "15.3.5",
-    "tailwindcss": "^4"
+    "eslint-config-next": "15.3.5"
   }
 }

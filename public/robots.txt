@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Disallow: /admin
+
+# Host
+Host: https://www.elsietheexplorer.com
+
+# Sitemaps
+Sitemap: https://www.elsietheexplorer.com/sitemap.xml

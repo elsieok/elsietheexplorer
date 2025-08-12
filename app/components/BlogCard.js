@@ -2,13 +2,15 @@ import Link from "next/link";
 import { format } from "date-fns";
 
 export default function BlogCard({ post }) {
+    const postDate = post.date || post.publishedAt
+
     return (
-        <article className="bg-[#E2B9B8]/90 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+        <article className="bg-[#CE8988]/50 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             <div className="p-6">
                 {/* Post metadata */}
                 <div className="flex items-center text-sm text-gray-500 mb-3">
                     <time dateTime="{post.date}">
-                        {format(new Date(post.date), 'd MMM, yyyy')}
+                        {format(new Date(postDate), 'd MMM, yyyy')}
                     </time>
                     <span className="mx-2"> • </span>
                     <span> {post.author} </span>
@@ -38,6 +40,19 @@ export default function BlogCard({ post }) {
                             {tag}
                         </span>
                     ))}
+                </div>
+
+                {/* Views and Likes */}
+                <div className="text-xl font-bold mb-3 text-gray-900 flex items-center justify-between">
+                    {post.views > 0 && (
+                        <span>{post.views} views</span>
+                    )}
+                    {post.likes > 0 && (
+                        <>
+                            <span className="mx-2"> • </span>
+                            <span>{post.likes} likes</span>
+                        </>
+                    )}
                 </div>
             </div>
         </article>
