@@ -70,7 +70,7 @@ export default function BlogPost({ params }) {
         return (
         <div className="max-w-4xl mx-auto px-4 py-12">
             <h1 className="text-4xl font-bold mb-4 text-gray-900">Post Not Found</h1>
-            <p className="text-gray-900">The post you're looking for doesn't exist.</p>
+            <p className="text-gray-900">The post you&apos;re looking for doesn&apos;t exist.</p>
         </div>
         )
     }
