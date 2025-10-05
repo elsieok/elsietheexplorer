@@ -11,7 +11,7 @@ export async function POST(request, { params }) {
             return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
         }
 
-        const { id } = await params
+        const { id } = params
         const comment = await CommentController.approveComment(id)
         return NextResponse.json(comment)
     } catch (error) {

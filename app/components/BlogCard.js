@@ -47,10 +47,10 @@ export default function BlogCard({ post }) {
                     {post.views > 0 && (
                         <span>{post.views} views</span>
                     )}
-                    {post.likes > 0 && (
+                    {post.comments?.length > 0 && (
                         <>
                             <span className="mx-2"> • </span>
-                            <span>{post.likes} likes</span>
+                            <span> {post.comments.length} {post.comments.length === 1 ? 'comment' : 'comments'} </span>
                         </>
                     )}
                 </div>

@@ -48,7 +48,7 @@ export default function BlogPost({ params }) {
                 const now = Date.now();
 
                 if (!viewedPosts[slug] || now - viewedPosts[slug] > 4 * 60 * 60 * 1000) {
-                    await fetch(`/api/posts/${slug}/view`, { method: 'POST' })
+                    // await fetch(`/api/posts/${slug}/view`, { method: 'POST' })
                     viewedPosts[slug] = now
                     localStorage.setItem('viewedPosts', JSON.stringify(viewedPosts))
                 }

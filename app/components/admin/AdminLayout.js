@@ -12,14 +12,40 @@ export default function AdminLayout({ children }) {
     const router = useRouter()
 
     useEffect(() => {
-        const token = localStorage.getItem('adminToken')
-        if (token) {
-            // verridy token with backend
-            setAuthenticated(true)
-        } else {
-            router.push('/admin/login')
+        const verifyToken = async () => {
+            const token = localStorage.getItem('adminToken')
+
+            if (!token) {
+                router.push('/admin/login')
+                return
+            }
+
+            try {
+                const res = await fetch('/api/admin/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+
+                if (!res.ok) {
+                    // Token is invalid or expired
+                    localStorage.removeItem('adminToken')
+                    router.push('/admin/login')
+                    return
+                }
+
+                setAuthenticated(true)
+            } catch (err) {
+                console.error('Token verification error:', err)
+                localStorage.removeItem('adminToken')
+                router.push('/admin/login')
+            } finally {
+                setLoading(false)
+            }
         }
-        setLoading(false)
+
+        verifyToken()
     }, [router])
 
     const handleLogout = () => {
