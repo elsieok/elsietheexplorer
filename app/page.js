@@ -32,13 +32,13 @@ export default function Home() {
                 <div className="flex gap-4 justify-center">
                 <Link 
                     href="/blog" 
-                    className="bg-[#94E1EB]/60 text-white px-6 py-3 rounded-lg hover:bg-[#B2E9F0]/75 transition-colors"
+                    className="text-[#1C8694]/80 hover:text-[#22A1B2] hover:bg-[#B2E9F0]/75 font-medium bg-[#94E1EB]/60 px-6 py-3 rounded-lg transition-colors"
                 >
                     Read My Blog
                 </Link>
                 <Link 
                     href="/about" 
-                    className="border border-[#94E1EB/60 text-[#94E1EB] px-6 py-3 rounded-lg hover:bg-[#B2E9F0]/75 hover:text-white transition-colors"
+                    className="text-[#1C8694]/80 hover:text-[#22A1B2] hover:bg-[#B2E9F0]/75 font-medium bg-[#94E1EB]/60 px-6 py-3 rounded-lg transition-colors"
                 >
                     About Me
                 </Link>
@@ -69,7 +69,7 @@ export default function Home() {
                                 ))}
                             </div>
                             <div className="text-center mt-8">
-                                <Link href="/blog" className="text-[#1C8694] hover:text-[#22A1B2] hover:bg-[#B2E9F0]/75 font-medium bg-[#94E1EB]/60 px-6 py-3 rounded-lg hover:bg-[#B2E9F0]/75 transition-colors">
+                                <Link href="/blog" className="text-[#1C8694] hover:text-[#22A1B2] hover:bg-[#B2E9F0]/75 font-medium bg-[#94E1EB]/60 px-6 py-3 rounded-lg transition-colors">
                                     View All Posts →
                                 </Link>
                             </div>
