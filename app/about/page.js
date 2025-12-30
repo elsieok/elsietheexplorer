@@ -1,5 +1,34 @@
 import Link from "next/link";
 import Image from "next/image";
+import ContactForm from "../components/ContactForm";
+
+const socialLinks = [
+    {
+        name: 'Instagram',
+        url: 'https://instagram.com/4kewii',
+        //icon: Instagram,
+        color: 'bg-gradient-to-br from-purple-500 to-pink-500'
+    },
+    {
+        name: 'LinkedIn',
+        url: 'https://linkedin.com/in/elsie-okon/',
+        //icon: Linkedin,
+        color: 'bg-blue-600'
+    },
+    {
+        name: 'Substack',
+        url: 'https://overlady.substack.com',
+        //icon: FileText,
+        color: 'bg-orange-500'
+    },
+    // Uncomment when you have a Spotify link:
+    // {
+    //     name: 'Spotify',
+    //     url: 'https://open.spotify.com/artist/yourartistid',
+    //     icon: Music,
+    //     color: 'bg-green-500'
+    // },
+];
 
 export default function AboutPage() {
     return (
@@ -145,8 +174,29 @@ export default function AboutPage() {
                         Let's Connect!
                     </h2>
                     <p className="text-lg mb-6 opacity-90">
-                        Want to chat about tech, travel, or music? Check out my blog or reach out!
+                        Want to chat about tech, travel, or music? Find me online or send me a message!
                     </p>
+                    
+                    {/* Social Links */}
+                    <div className="flex gap-4 justify-center flex-wrap mb-8">
+                        {socialLinks.map((link) => {
+                            //const Icon = link.icon
+                            return (
+                                <Link
+                                    key={link.name}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`${link.color} text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity shadow-md flex items-center gap-2`}
+                                    title={link.name}
+                                >
+                                    {/* <Icon size={20} /> */}
+                                    {link.name}
+                                </Link>
+                            )
+                        })}
+                    </div>
+
                     <div className="flex gap-4 justify-center flex-wrap">
                         <Link 
                             href="/blog"
@@ -161,6 +211,11 @@ export default function AboutPage() {
                             View My Projects
                         </Link>
                     </div>
+                </section>
+
+                {/* Contact Form */}
+                <section>
+                    <ContactForm />
                 </section>
             </div>
         </div>

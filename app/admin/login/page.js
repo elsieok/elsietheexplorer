@@ -24,6 +24,7 @@ export default function AdminLogin() {
             const data = await response.json()
 
             if (response.ok) {
+                localStorage.setItem('adminToken', data.token)
                 router.push('/admin/dashboard')
             } else {
                 setError(data.error || 'Login failed')
@@ -36,54 +37,57 @@ export default function AdminLogin() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[#F2DFDE] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                <div className="bg-[#E2B9B8] py-8 px-4 shadow-xl sm:rounded-lg sm:px-10 border-2 border-[#C56462]">
                     <div className="text-center mb-6">
-                        <Lock className="mx-auto h-12 w-12 text-gray-400" />
+                        <div className="mx-auto h-16 w-16 bg-[#C56462] rounded-full flex items-center justify-center shadow-md">
+                            <Lock className="h-8 w-8 text-white" />
+                        </div>
                         <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Admin Login</h2>
+                        <p className="mt-2 text-sm text-gray-700">Sign in to access the admin panel</p>
                     </div>
 
                     {error && (
-                        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                        <div className="mb-4 p-3 bg-red-100 border-2 border-red-400 text-red-700 rounded-lg">
                             {error}
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">Email</label>
+                            <label className="block text-sm font-medium text-gray-900">Email</label>
                             <div className="mt-1 relative">
                                 <input
                                     type="email"
                                     required
                                     value={formData.email}
                                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                    className="appearance-none block w-full px-3 py-2 pl-10 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    className="appearance-none block w-full px-3 py-2 pl-10 border-2 border-[#C56462] rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#803635] focus:border-[#803635] bg-white text-gray-900"
                                     placeholder="admin@example.com"
-                                    />
-                                <Mail className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                                />
+                                <Mail className="absolute left-3 top-2.5 h-5 w-5 text-[#C56462]" />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">Password</label>
+                            <label className="block text-sm font-medium text-gray-900">Password</label>
                             <div className="mt-1 relative">
                                 <input
                                     type="password"
                                     required
                                     value={formData.password}
                                     onChange={(e) => setFormData({...formData, password: e.target.value})}
-                                    className="appearance-none block w-full px-3 py-2 pl-10 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                    />
-                                <Lock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                                    className="appearance-none block w-full px-3 py-2 pl-10 border-2 border-[#C56462] rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#803635] focus:border-[#803635] bg-white text-gray-900"
+                                />
+                                <Lock className="absolute left-3 top-2.5 h-5 w-5 text-[#C56462]" />
                             </div>
                         </div>
 
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
+                            className="w-full flex justify-center py-2 px-4 border-2 border-[#803635] rounded-md shadow-sm text-sm font-medium text-white bg-[#C56462] hover:bg-[#803635] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#803635] disabled:opacity-50 transition-colors">
                                 {loading ? 'Signing in...' : 'Sign in'}
                         </button>
                     </form>
