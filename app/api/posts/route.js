@@ -5,14 +5,20 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url)
-    const published = searchParams.get('published') != 'false'
+    const published = searchParams.get('published') !== 'false'
 
     const posts = await PostController.getAllPosts(published)
-    return NextResponse.json(posts)
+
+    // Defensive: ensure array
+    return NextResponse.json(Array.isArray(posts) ? posts : [])
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch posts' })
+    console.error('GET /api/posts failed:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch posts' },
+      { status: 500 }
+    )
   }
-};
+}
 
 export async function POST(request) {
   try {

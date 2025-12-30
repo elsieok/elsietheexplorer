@@ -29,7 +29,6 @@ export default function AdminLayout({ children }) {
                 })
 
                 if (!res.ok) {
-                    // Token is invalid or expired
                     localStorage.removeItem('adminToken')
                     router.push('/admin/login')
                     return
@@ -54,7 +53,11 @@ export default function AdminLayout({ children }) {
     }
 
     if (loading) {
-        return <div className="flex items-center justify-center min-h-screen">Loading...</div>
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-[#F2DFDE]">
+                <p className="text-gray-900">Loading...</p>
+            </div>
+        )
     }
 
     if (!authenticated) {
@@ -69,20 +72,27 @@ export default function AdminLayout({ children }) {
     ]
 
     return (
-        <><Head>
-            <meta name="robots" content="noindex, nofollow" />
-        </Head>
-        <div className="min-h-screen bg-gray-50">
+        <>
+            <Head>
+                <meta name="robots" content="noindex, nofollow" />
+            </Head>
+            <div className="min-h-screen bg-[#F2DFDE]">
                 {/* Mobile Sidebar overlay */}
                 {sidebarOpen && (
-                    <div className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden" onClick={() => setSidebarOpen(false)} />
+                    <div 
+                        className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden" 
+                        onClick={() => setSidebarOpen(false)} 
+                    />
                 )}
 
                 {/* Sidebar */}
-                <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                    <div className="flex h-16 items-center justify-between px-4 border-b">
-                        <h1 className="text-xl font-bold">Admin Panel</h1>
-                        <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 rounded-md hover:bg-gray-100">
+                <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#E2B9B8] shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 border-r-2 border-[#C56462] ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                    <div className="flex h-16 items-center justify-between px-4 border-b-2 border-[#C56462] bg-[#CE8988]">
+                        <h1 className="text-xl font-bold text-gray-900">Admin Panel</h1>
+                        <button 
+                            onClick={() => setSidebarOpen(false)} 
+                            className="lg:hidden p-1 rounded-md hover:bg-[#C56462] hover:text-white transition-colors"
+                        >
                             <X size={20} />
                         </button>
                     </div>
@@ -93,7 +103,7 @@ export default function AdminLayout({ children }) {
                                 <li key={item.name}>
                                     <Link
                                         href={item.href}
-                                        className="flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                                        className="flex items-center px-3 py-2 text-gray-900 rounded-lg hover:bg-[#C56462] hover:text-white transition-colors font-medium"
                                     >
                                         <item.icon className="mr-3 h-5 w-5" />
                                         {item.name}
@@ -103,8 +113,11 @@ export default function AdminLayout({ children }) {
                         </ul>
                     </nav>
 
-                    <div className="border-t p-4">
-                        <button onClick={handleLogout} className="flex items-center w-full px-3 py-2 text-red-700 rounded-lg hover:bg-red-50 transition-colors">
+                    <div className="border-t-2 border-[#C56462] p-4 bg-[#CE8988]">
+                        <button 
+                            onClick={handleLogout} 
+                            className="flex items-center w-full px-3 py-2 text-gray-900 rounded-lg hover:bg-[#C56462] hover:text-white transition-colors font-medium"
+                        >
                             <LogOut className="mr-3 h-5 w-5" />
                             Logout
                         </button>
@@ -114,17 +127,21 @@ export default function AdminLayout({ children }) {
                 {/* Main content */}
                 <div className="lg:ml-64">
                     {/* Top bar */}
-                    <div className="bg-white shadow-sm border-b h-16 flex items-center justify-between px-4">
-                        <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-md hover:bg-gray-100">
+                    <div className="bg-[#C56462] shadow-md border-b-2 border-[#803635] h-16 flex items-center justify-between px-4">
+                        <button 
+                            onClick={() => setSidebarOpen(true)} 
+                            className="lg:hidden p-2 rounded-md hover:bg-[#803635] hover:text-white transition-colors"
+                        >
                             <Menu size={20} />
                         </button>
 
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-4 ml-auto">
                             <Link
                                 href="/"
-                                className="text-blue-600 hover:text-blue-800 transition-colors"
+                                className="text-white hover:text-[#F5E6E6] transition-colors font-semibold"
                                 target="_blank"
-                            > View Site
+                            > 
+                                View Site
                             </Link>
                         </div>
                     </div>
@@ -134,6 +151,7 @@ export default function AdminLayout({ children }) {
                         {children}
                     </main>
                 </div>
-            </div></>
+            </div>
+        </>
     )
 }

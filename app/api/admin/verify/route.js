@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { verifyAdmin } from "@/lib/utils/auth";
+import { cookies } from "next/headers";
 
 export async function POST(request) {
     try {
-        const token = request.headers.get('authorization')?.replace('Bearer ', '')
+        const token = cookies().get('adminToken')?.value
         const isAdmin = await verifyAdmin(token)
 
         if (!isAdmin) {
