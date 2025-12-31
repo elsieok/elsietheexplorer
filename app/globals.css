@@ -23,9 +23,87 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 /* Larger spaces between paragraphs */
 article p {
-  margin-bottom: 1.5em; /* or 2em for even more spacing */
+  margin-bottom: 1.5em;
+}
+
+/* Better mobile typography */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+}
+
+/* Prevent horizontal overflow */
+* {
+  max-width: 100%;
+}
+
+/* Ensure images are responsive */
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+/* Better touch targets for mobile */
+@media (max-width: 768px) {
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Improve table responsiveness */
+table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better prose styling for mobile */
+.prose {
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .prose {
+    font-size: 0.95rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1.25em;
+  }
+  
+  .prose pre {
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    overflow-x: auto;
+  }
+  
+  .prose code {
+    font-size: 0.85rem;
+  }
 }

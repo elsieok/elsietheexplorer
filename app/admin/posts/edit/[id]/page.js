@@ -33,7 +33,7 @@ export default function EditPost({ params }) {
         return (
             <AdminLayout>
                 <div className="text-center py-12">
-                    <p className="text-red-500">Post not found</p>
+                    <p className="text-red-900">Post not found</p>
                 </div>
             </AdminLayout>
         )

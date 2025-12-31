@@ -6,27 +6,6 @@ import ContentClient from "@/app/components/ContentClient";
 import LikeButton from "@/app/components/LikeButton";
 import CommentSection from "@/app/components/CommentSection";
 
-// // This function tells Next.js which blog posts exist
-// export async function generateStaticParams() {
-//     // Async functions are executed in a non-blocking way
-//     // but can make code unpredictable and hard to read and debug.
-//     const posts = getAllPosts();
-//     return posts.map((post) => ({
-//         slug: post.slug,
-//     }));
-// }
-
-// // This func sets the page metadata (title, description, etc.)
-// export async function generateMetadata({ params }) {
-//     const { slug } = await params;
-//     const post = await getPostBySlug(slug);
-
-//     return {
-//         title: post.title,
-//         description: post.excerpt,
-//     }
-// }
-
 export default function BlogPost({ params }) {
     const { slug } = use(params);
     const [post, setPost] = useState(null)
@@ -68,35 +47,35 @@ export default function BlogPost({ params }) {
         )
     } else if (!post) {
         return (
-        <div className="max-w-4xl mx-auto px-4 py-12">
-            <h1 className="text-4xl font-bold mb-4 text-gray-900">Post Not Found</h1>
-            <p className="text-gray-900">The post you&apos;re looking for doesn&apos;t exist.</p>
-        </div>
+            <div className="max-w-4xl mx-auto px-4 py-12">
+                <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">Post Not Found</h1>
+                <p className="text-gray-900">The post you&apos;re looking for doesn&apos;t exist.</p>
+            </div>
         )
     }
 
     return (
         <>
-            <article className="max-w-4xl mx-auto px-4 py-12">
+            <article className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
                 {/* Post header */}
-                <header className="mb-8">
-                    <h1 className="text-4xl font-bold mb-4 text-gray-900">
+                <header className="mb-6 sm:mb-8">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-900 break-words">
                         {post.title}
                     </h1>
                     
                     {/* Post metadata */}
-                    <div className="flex items-center text-sm text-gray-900 mb-3">
+                    <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-900 mb-3 gap-2">
                         <time dateTime={post.publishedAt}>
                             {format(new Date(post.publishedAt), 'd MMM, yyyy')}
                         </time>
-                        <span className="mx-2"> • </span>
+                        <span className="hidden sm:inline">•</span>
                         <span>{post.author}</span>
-                        <span className="mx-2">•</span>
+                        <span className="hidden sm:inline">•</span>
                         <span>{post.views} views</span>
                     </div>
 
-                    {/** Tags */}
-                    <div className="flex flex-wrap gap-2">
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-3">
                         {post.tags?.map((tag) => (
                             <span key={tag} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
                                 {tag}
@@ -110,14 +89,12 @@ export default function BlogPost({ params }) {
                     </div>
                 </header>
 
-
-                {/** Post content */}
-                {/* MDX Content rendered on the client */}
+                {/* Post content */}
                 <ContentClient source={mdxSource} />
             </article>
 
             {/* Comments section */}
-            <div className="max-w4xl mx-auto px-4 pb-12">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-8 sm:pb-12">
                 <CommentSection postId={post._id}/>
             </div>
         </>

@@ -8,7 +8,7 @@ export default function PostForm({ post = null, isEdit = false }) {
         slug: post?.slug || '',
         content: post?.content || '',
         excerpt: post?.excerpt || '',
-        author: post?.author || 'Your Name',
+        author: post?.author || 'Elsie',
         tags: post?.tags?.join(', ') || '',
         published: post?.published ?? true
     })
@@ -61,7 +61,7 @@ export default function PostForm({ post = null, isEdit = false }) {
 
     return (
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-6">
-            <div className="bg-white shadow rounded-lg p-6">
+            <div className="bg-[#E2B9B8] rounded-xl shadow-lg p-8 border-2 border-[#C56462]">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -73,7 +73,7 @@ export default function PostForm({ post = null, isEdit = false }) {
                             required
                             value={formData.title}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            className="w-full px-3 py-2 border-2 border-[#C56462] rounded-lg focus:ring-2 focus:ring-[#803635] bg-white text-gray-900" />
                     </div>
 
                     <div>
@@ -83,10 +83,9 @@ export default function PostForm({ post = null, isEdit = false }) {
                         <input
                             type="text"
                             name="slug"
-                            required
                             value={formData.slug}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border-2 border-[#C56462] rounded-lg focus:ring-2 focus:ring-[#803635] bg-white text-gray-900"
                             placeholder="Auto-generated from title" />
                     </div>
 
@@ -100,7 +99,7 @@ export default function PostForm({ post = null, isEdit = false }) {
                             required
                             value={formData.author}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            className="w-full px-3 py-2 border-2 border-[#C56462] rounded-lg focus:ring-2 focus:ring-[#803635] bg-white text-gray-900" />
                     </div>
 
                     <div>
@@ -113,7 +112,7 @@ export default function PostForm({ post = null, isEdit = false }) {
                             required
                             value={formData.tags}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            className="w-full px-3 py-2 border-2 border-[#C56462] rounded-lg focus:ring-2 focus:ring-[#803635] bg-white text-gray-900" />
                     </div>
                 </div>
 
@@ -127,7 +126,7 @@ export default function PostForm({ post = null, isEdit = false }) {
                         rows={3}
                         value={formData.excerpt}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        className="w-full px-3 py-2 border-2 border-[#C56462] rounded-lg focus:ring-2 focus:ring-[#803635] bg-white text-gray-900" 
                         placeholder="Brief description of the post" />
                 </div>
 
@@ -141,7 +140,7 @@ export default function PostForm({ post = null, isEdit = false }) {
                         rows={20}
                         value={formData.content}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        className="w-full px-3 py-2 border-2 border-[#C56462] rounded-lg focus:ring-2 focus:ring-[#803635] bg-white text-gray-900" 
                         placeholder="Write your post content in Markdown..." />
                 </div>
 
@@ -152,7 +151,7 @@ export default function PostForm({ post = null, isEdit = false }) {
                         id="published"
                         value={formData.published}
                         onChange={handleInputChange}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+                        className="h-4 w-4 rounded" />
                     <label htmlFor="published" className="ml-2 block text-sm text-gray-900">
                         Publish immediately
                     </label>
@@ -162,13 +161,13 @@ export default function PostForm({ post = null, isEdit = false }) {
                     <button
                         type="button"
                         onClick={() => router.back()}
-                        className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                        className="px-4 py-2 bg-white text-[#C56462] rounded-lg hover:bg-[#F5E6E6] transition-colors">
                             Cancel
                     </button>
                     <button
                         type="submit"
                         disabled={saving}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50">
+                        className="px-4 py-2 bg-[#803635] text-white rounded-lg hover:bg-[#6B2D2C] transition-colors disabled:opacity-50">
                             {saving ? 'Saving...' : (isEdit ? 'Update Post' : 'Create Post')}
                     </button>
                 </div>
