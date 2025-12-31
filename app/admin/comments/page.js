@@ -11,7 +11,7 @@ export default function AdminComments() {
 
     useEffect(() => {
         fetchComments()
-    }, [filter])
+    }, [filter, fetchComments])
 
     const fetchComments = async () => {
         try {

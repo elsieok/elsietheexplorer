@@ -51,7 +51,7 @@ export default function AboutPage() {
                 {/* Quick Intro */}
                 <div className="flex-1 text-center ">
                     <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900">
-                        Hi, I'm Elsie!
+                        Hi, I&apos;m Elsie!
                     </h1>
                 </div>
             </div>
@@ -65,7 +65,7 @@ export default function AboutPage() {
                     </h2>
                     <div className="prose prose-lg max-w-none text-gray-800 space-y-4">
                         <p>
-                            Hello world! I'm Elsie. That's it, short and sweet. I'm from Manchester and I'm a student at{' '}
+                            Hello world! I&apos;m Elsie. That&apos;s it, short and sweet. I&apos;m from Manchester and I&apos;m a student at{' '}
                             <Link 
                                 href="https://www.pomona.edu"
                                 target="_blank" 
@@ -78,11 +78,11 @@ export default function AboutPage() {
                         </p>
 
                         <p>
-                            My main hobbies include making music (right now it's really just trumpet, piano and production), playing rugby (badly), and walking long distances from my current location, wherever that may be at a given time. Beyond that, I'm always down to try something new!
+                            My main hobbies include making music (right now it&apos;s really just trumpet, piano and production), playing rugby (badly), and walking long distances from my current location, wherever that may be at a given time. Beyond that, I&apos;m always down to try something new!
                         </p>
 
                         <p>
-                            Currently, I'm working on a few personal{' '}
+                            Currently, I&apos;m working on a few personal{' '}
                             <Link 
                                 href="/projects" 
                                 className="text-[#803635] hover:text-[#6B2D2C] hover:underline font-semibold transition-colors"
@@ -97,7 +97,7 @@ export default function AboutPage() {
                 {/* Connect Section */}
                 <section className="bg-gradient-to-r from-[#C56462] to-[#CE8988] rounded-xl shadow-lg p-8 text-center text-white">
                     <h2 className="text-3xl font-bold mb-4">
-                        Let's Connect!
+                        Let&apos;s Connect!
                     </h2>
                     <p className="text-lg mb-6 opacity-90">
                         Want to chat? Find me online or send me a message!

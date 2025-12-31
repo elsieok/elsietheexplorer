@@ -17,7 +17,7 @@ export default function CommentSection({ postId }) {
 
     useEffect(() => {
         fetchComments()
-    }, [postId])
+    }, [postId, fetchComments])
 
     const fetchComments = async () => {
         try {
