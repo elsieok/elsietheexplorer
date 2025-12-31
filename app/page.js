@@ -38,7 +38,7 @@ export default function Home() {
                     </Link>
                     <Link 
                         href="/projects"
-                        className="bg-[#803635] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-[#6B2D2C] transition-colors shadow-md text-sm sm:text-base"
+                        className="bg-[#803635]/70 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-[#6B2D2C] transition-colors shadow-md text-sm sm:text-base"
                     >
                         View My Projects
                     </Link>
@@ -50,7 +50,7 @@ export default function Home() {
                     </Link>
                     <Link 
                         href="/about"
-                        className="bg-[#803635] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-[#6B2D2C] transition-colors shadow-md text-sm sm:text-base"
+                        className="bg-[#803635]/70 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-[#6B2D2C] transition-colors shadow-md text-sm sm:text-base"
                     >
                         Learn More About Me
                     </Link>

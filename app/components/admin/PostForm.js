@@ -149,11 +149,11 @@ export default function PostForm({ post = null, isEdit = false }) {
                         type="checkbox"
                         name="published"
                         id="published"
-                        value={formData.published}
+                        checked={formData.published}
                         onChange={handleInputChange}
                         className="h-4 w-4 rounded" />
                     <label htmlFor="published" className="ml-2 block text-sm text-gray-900">
-                        Publish immediately
+                        Publish
                     </label>
                 </div>
 

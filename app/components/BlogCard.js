@@ -47,16 +47,18 @@ export default function BlogCard({ post }) {
                         ))}
                     </div>
 
-                    {/* Views and Comments */}
+                    {/* Comments */}
                     <div className="text-xl font-bold text-gray-900 flex items-center justify-between">
-                        {post.views > 0 && (
-                            <span>{post.views} {post.views === 1 ? 'view' : 'views'}</span>
+
+                        {post.comments?.length === 0 && (
+                            <Link href={`/blog/${post.slug}#comments`} className="text-grey-900 hover:text-[#6B2D2C] hover:underline">
+                                No comments yet
+                            </Link>
                         )}
                         {post.comments?.length > 0 && (
-                            <>
-                                <span className="mx-2"> • </span>
-                                <span>{post.comments.length} {post.comments.length === 1 ? 'comment' : 'comments'}</span>
-                            </>
+                            <Link href={`/blog/${post.slug}#comments`} className="text-gray-900 hover:text-[#6B2D2C] hover:underline">
+                                {post.comments.length} {post.comments.length === 1 ? 'comment' : 'comments'}
+                            </Link>
                         )}
                     </div>
                 </div>
