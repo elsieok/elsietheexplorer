@@ -31,16 +31,16 @@ export default function Home() {
                 </p>
                 <div className="flex gap-4 justify-center">
                 <Link 
-                    href="/blog" 
-                    className="text-[#1C8694]/80 hover:text-[#22A1B2] hover:bg-[#B2E9F0]/75 font-medium bg-[#94E1EB]/60 px-6 py-3 rounded-lg transition-colors"
+                    href="/blog"
+                    className="bg-white text-[#C56462] px-6 py-3 rounded-lg font-semibold hover:bg-[#F5E6E6] transition-colors shadow-md"
                 >
                     Read My Blog
                 </Link>
                 <Link 
-                    href="/about" 
-                    className="text-[#1C8694]/80 hover:text-[#22A1B2] hover:bg-[#B2E9F0]/75 font-medium bg-[#94E1EB]/60 px-6 py-3 rounded-lg transition-colors"
+                    href="/projects"
+                    className="bg-[#803635] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#6B2D2C] transition-colors shadow-md"
                 >
-                    About Me
+                    View My Projects
                 </Link>
                 </div>
             </section>
@@ -69,7 +69,7 @@ export default function Home() {
                                 ))}
                             </div>
                             <div className="text-center mt-8">
-                                <Link href="/blog" className="text-[#1C8694] hover:text-[#22A1B2] hover:bg-[#B2E9F0]/75 font-medium bg-[#94E1EB]/60 px-6 py-3 rounded-lg transition-colors">
+                                <Link href="/blog" className="text-[#803635] hover:text-[#6B2D2C] hover:bg-[#6B2D2C]/30 hover:underline font-medium bg-[#803635]/20 px-6 py-3 rounded-lg transition-colors">
                                     View All Posts →
                                 </Link>
                             </div>

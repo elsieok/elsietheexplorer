@@ -8,7 +8,7 @@ export default function BlogCard({ post }) {
         <article className="bg-[#CE8988]/50 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
             <div className="p-6 flex flex-col flex-grow">
                 {/* Post metadata */}
-                <div className="flex items-center text-sm text-gray-500 mb-3">
+                <div className="flex items-center text-sm text-gray-900 mb-3">
                     <time dateTime={post.date}>
                         {format(new Date(postDate), 'd MMM, yyyy')}
                     </time>
@@ -24,11 +24,11 @@ export default function BlogCard({ post }) {
                 </h3>
 
                 {/* Post excerpt */}
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-900 mb-4">
                     {post.excerpt}
                     <br />
                     {/* Read more */}
-                    <Link href={`/blog/${post.slug}`} className="text-[#1C8694] hover:text-[#22A1B2] hover:underline font-medium text-sm">
+                    <Link href={`/blog/${post.slug}`} className="text-[#803635] hover:text-[#6B2D2C]  hover:underline font-medium text-sm">
                         Read More...
                     </Link>
                 </p>
