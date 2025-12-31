@@ -52,7 +52,7 @@ export default function ContactForm() {
             
             {submitted ? (
                 <div className="bg-green-100 border-2 border-green-400 text-green-800 px-4 py-3 rounded-lg">
-                    Thanks for reaching out! I'll get back to you soon.
+                    Thanks for reaching out! I&apos;ll get back to you soon.
                 </div>
             ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">

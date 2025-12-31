@@ -16,10 +16,7 @@ export default function CommentSection({ postId }) {
     })
 
     useEffect(() => {
-        fetchComments()
-    }, [postId, fetchComments])
-
-    const fetchComments = async () => {
+        const fetchComments = async () => {
         try {
             const response = await fetch(`/api/comments?postId=${postId}&approved=true`)
             if (response.ok) {
@@ -31,6 +28,9 @@ export default function CommentSection({ postId }) {
         }
         setLoading(false)
     }
+        fetchComments()
+    }, [postId])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()

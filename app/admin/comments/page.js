@@ -10,10 +10,7 @@ export default function AdminComments() {
     const [filter, setFilter] = useState('pending')
 
     useEffect(() => {
-        fetchComments()
-    }, [filter, fetchComments])
-
-    const fetchComments = async () => {
+        const fetchComments = async () => {
         try {
             const approved = filter === 'approved' ? 'true' : 'false'
             const response = await fetch(`/api/comments?approved=${approved}`)
@@ -30,6 +27,9 @@ export default function AdminComments() {
         }
         setLoading(false)
     }
+        fetchComments()
+    }, [filter])
+
 
     const handleApprove = async (id) => {
         try {
