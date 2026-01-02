@@ -47,14 +47,7 @@ export default function AboutPage() {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-center">
-                {/* Quick Intro */}
-                <div className="flex-1 text-center">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 text-gray-900">
-                        Hi, I&apos;m Elsie!
-                    </h1>
-                </div>
-            </div>
+            
 
             {/* Main Content */}
             <div className="space-y-6 sm:space-y-8">
@@ -65,7 +58,7 @@ export default function AboutPage() {
                     </h2>
                     <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-800 space-y-4">
                         <p>
-                            Hello world! I&apos;m Elsie. That&apos;s it, short and sweet. I&apos;m from Manchester and I&apos;m a student at{' '}
+                            Hello world! I&apos;m Elsie, a fellow Mancunian currently studying at{' '}
                             <Link 
                                 href="https://www.pomona.edu"
                                 target="_blank" 
