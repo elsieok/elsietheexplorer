@@ -1,43 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ElsieTheExplorer
 
-## Getting Started
+A personal website, blog, and portfolio built with Next.js.
 
-First, run the development server:
+This site is where I collect the things I'm interested in: software projects, travel stories, photography, and the occasional rabbit hole. It serves as both a public notebook and a place to experiment with web development.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What's Here?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Blog
+Writing about technology, travel, university life, and whatever else happens to capture my attention.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Projects
+A selection of software projects I've worked on, ranging from interpreters and full-stack applications to smaller experiments.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Photography
+Photos from travels, walks, and places I find interesting.
 
-## Learn More
+### About
+A little background on who I am and what I'm currently working on.
 
-To learn more about Next.js, take a look at the following resources:
+## Built With
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js
+- React
+- JavaScript
+- CSS
+- Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Design Goals
 
-## Deploy on Vercel
+The site is intentionally simple:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Fast and lightweight
+- Easy to read
+- Mobile-friendly
+- Focused on content rather than distractions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Rather than relying heavily on external UI libraries, much of the styling and layout is custom-built to give the site its own personality.
 
----------------------------------------
+## Why This Exists
 
-To do:
-    add picture on about page
-    add background for post content
-    
+Social media platforms are great for sharing moments, but they aren't ideal for long-form writing, documenting projects, or preserving work over time.
+
+This site gives me a space that I fully control—a place to publish things that don't fit neatly into an Instagram post, LinkedIn update, or GitHub repository.
+
+## Visit
+
+**[elsietheexplorer.com](https://elsietheexplorer.com)**
+
+Thanks for stopping by.
