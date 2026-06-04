@@ -4,184 +4,195 @@ import AdminLayout from '../../components/admin/AdminLayout'
 import { CheckCircle, Trash2 } from 'lucide-react'
 import { format } from 'date-fns'
 
+const FILTERS = ['pending', 'approved', 'all']
+
 export default function AdminComments() {
-    const [comments, setComments] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [filter, setFilter] = useState('pending')
+  const [comments, setComments] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [filter, setFilter] = useState('pending')
+  const [actionId, setActionId] = useState(null)
 
-    useEffect(() => {
-        const fetchComments = async () => {
-        try {
-            const approved = filter === 'approved' ? 'true' : 'false'
-            const response = await fetch(`/api/comments?approved=${approved}`)
-
-            if (response.ok) {
-                let data = await response.json()
-                if (filter === 'pending') {
-                    data = data.filter(comment => !comment.approved)
-                }
-                setComments(data)
-            }
-        } catch (error) {
-            console.error('Failed to fetch comments:', error)
-        }
+  useEffect(() => {
+    setLoading(true)
+    const approved = filter === 'approved' ? 'true' : 'false'
+    fetch(`/api/comments?approved=${approved}`)
+      .then(r => r.ok ? r.json() : [])
+      .then(data => {
+        let arr = Array.isArray(data) ? data : []
+        if (filter === 'pending') arr = arr.filter(c => !c.approved)
+        setComments(arr)
         setLoading(false)
-    }
-        fetchComments()
-    }, [filter])
+      })
+      .catch(() => setLoading(false))
+  }, [filter])
 
+  const handleApprove = async (id) => {
+    setActionId(id)
+    try {
+      const r = await fetch(`/api/comments/approve/${id}`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` },
+      })
+      if (r.ok) {
+        setComments(prev => prev.map(c => c._id === id ? { ...c, approved: true } : c))
+      }
+    } catch { /* noop */ }
+    setActionId(null)
+  }
 
-    const handleApprove = async (id) => {
-        try {
-            const response = await fetch(`/api/comments/approve/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-                }
-            })
+  const handleDelete = async (id) => {
+    if (!confirm('Delete this comment permanently?')) return
+    setActionId(id)
+    try {
+      const r = await fetch(`/api/comments/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` },
+      })
+      if (r.ok) setComments(prev => prev.filter(c => c._id !== id))
+    } catch { /* noop */ }
+    setActionId(null)
+  }
 
-            if (response.ok) {
-                setComments(comments.map(comment => 
-                    comment._id === id ? { ...comment, approved: true } : comment
-                ))
-            }
-        } catch (error) {
-            console.error('Failed to approve comment:', error)
-            alert('Failed to approve comment')
-        }
-    }
+  return (
+    <AdminLayout>
+      <div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem", flexWrap: "wrap", gap: "1rem" }}>
+          <h1 style={{ fontFamily: "var(--font-serif)", fontWeight: 700, fontSize: "1.625rem", color: "var(--gray-900)", letterSpacing: "-0.02em", margin: 0 }}>
+            Comments
+          </h1>
 
-    const handleDelete = async (id) => {
-        if (confirm('Are you sure you want to delete this comment?')) {
-            try {
-                const response = await fetch(`/api/comments/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-                    }
-                })
+          {/* Filter tabs */}
+          <div
+            style={{
+              display: "flex",
+              background: "var(--gray-100)",
+              borderRadius: "var(--radius-md)",
+              padding: "0.25rem",
+              gap: "0.125rem",
+            }}
+          >
+            {FILTERS.map(f => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                style={{
+                  padding: "0.375rem 0.875rem",
+                  borderRadius: "var(--radius-sm)",
+                  border: "none",
+                  fontSize: "0.875rem",
+                  fontWeight: filter === f ? 600 : 400,
+                  color: filter === f ? "var(--gray-900)" : "var(--gray-500)",
+                  background: filter === f ? "white" : "transparent",
+                  cursor: "pointer",
+                  boxShadow: filter === f ? "var(--shadow-xs)" : "none",
+                  transition: "all 150ms ease",
+                  textTransform: "capitalize",
+                  fontFamily: "var(--font-sans)",
+                }}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        </div>
 
-                if (response.ok) {
-                    setComments(prev => prev.filter(comment => comment._id !== id))
-                }
-            } catch (error) {
-                console.error('Failed to delete comment:', error)
-                alert('Failed to delete comment')
-            }
-        }
-    }
-
-    if (loading) {
-        return (
-            <AdminLayout>
-                <div className="text-center py-12">
-                    <p className="text-gray-900">Loading comments...</p>
+        <div className="admin-panel-card">
+          {loading ? (
+            <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {[1,2,3].map(i => (
+                <div key={i} style={{ padding: "1rem", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-lg)" }}>
+                  <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.625rem" }}>
+                    <div className="skeleton" style={{ height: "0.875rem", width: "100px" }} />
+                    <div className="skeleton" style={{ height: "0.875rem", width: "60px", borderRadius: "var(--radius-full)" }} />
+                  </div>
+                  <div className="skeleton" style={{ height: "0.875rem", marginBottom: "0.375rem" }} />
+                  <div className="skeleton" style={{ height: "0.875rem", width: "70%" }} />
                 </div>
-            </AdminLayout>
-        )
-    }
-
-    return (
-        <AdminLayout>
-            <div>
-                <div className='flex items-center justify-between mb-8'>
-                    <h1 className='text-3xl font-bold text-gray-900'>Comments</h1>
-
-                    <div className='flex space-x-2'>
-                        <button 
-                            onClick={() => setFilter('pending')} 
-                            className={`px-4 py-2 rounded-lg transition-colors ${
-                                filter === 'pending' 
-                                    ? 'bg-[#C56462] text-white' 
-                                    : 'bg-[#E2B9B8] text-gray-700 hover:bg-[#CE8988]'
-                            }`}
-                        >
-                            Pending
-                        </button>
-
-                        <button 
-                            onClick={() => setFilter('approved')} 
-                            className={`px-4 py-2 rounded-lg transition-colors ${
-                                filter === 'approved' 
-                                    ? 'bg-[#C56462] text-white' 
-                                    : 'bg-[#E2B9B8] text-gray-700 hover:bg-[#CE8988]'
-                            }`}
-                        >
-                            Approved
-                        </button>
-
-                        <button 
-                            onClick={() => setFilter('all')} 
-                            className={`px-4 py-2 rounded-lg transition-colors ${
-                                filter === 'all' 
-                                    ? 'bg-[#C56462] text-white' 
-                                    : 'bg-[#E2B9B8] text-gray-700 hover:bg-[#CE8988]'
-                            }`}
-                        >
-                            All
-                        </button>
-                    </div>
-                </div>
-
-                <div className='bg-white shadow-md rounded-lg overflow-hidden border border-[#E2B9B8]'>
-                    {comments.length === 0 ? (
-                        <div className='p-8 text-center text-gray-500'>
-                            No comments found.
-                        </div>
-                    ) : (
-                        <div className='divide-y divide-gray-200'>
-                            {comments.map((comment) => (
-                                <div key={comment._id} className='p-6 hover:bg-[#F5E6E6] transition-colors'>
-                                    <div className='flex items-start justify-between'>
-                                        <div className='flex-1'>
-                                            <div className="flex items-center space-x-2 mb-2">
-                                                <span className='font-medium text-gray-900'>{comment.name}</span>
-                                                <span className='text-sm text-gray-500'>{comment.email}</span>
-                                                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                                    comment.approved 
-                                                        ? 'bg-green-100 text-green-800' 
-                                                        : 'bg-yellow-100 text-yellow-800'
-                                                }`}>
-                                                    {comment.approved ? 'Approved' : 'Pending'}
-                                                </span>
-                                            </div>
-
-                                            <p className='text-gray-700 mb-3'>{comment.content}</p>
-
-                                            <div className='text-sm text-gray-500'>
-                                                <span>On: <strong>{comment.postId?.title || 'Unknown Post'}</strong></span>
-                                                <span className='ml-4'>
-                                                    {format(new Date(comment.createdAt), 'd MMM, yyyy h:mm a')}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className='flex items-center space-x-2 ml-4'>
-                                            {!comment.approved && (
-                                                <button 
-                                                    onClick={() => handleApprove(comment._id)} 
-                                                    className='text-green-600 hover:text-green-900 hover:bg-green-50 p-2 rounded-lg transition-colors' 
-                                                    title='Approve comment'
-                                                >
-                                                    <CheckCircle size={20}/>
-                                                </button>
-                                            )}
-
-                                            <button 
-                                                onClick={() => handleDelete(comment._id)} 
-                                                className='text-red-600 hover:text-red-900 hover:bg-red-50 p-2 rounded-lg transition-colors' 
-                                                title='Delete comment'
-                                            >
-                                                <Trash2 size={20}/>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
+              ))}
             </div>
-        </AdminLayout>
-    )
+          ) : comments.length === 0 ? (
+            <div style={{ padding: "4rem 2rem", textAlign: "center", color: "var(--gray-400)" }}>
+              <p style={{ fontSize: "1.75rem", marginBottom: "0.625rem" }}>💬</p>
+              <p style={{ fontWeight: 500, margin: 0, color: "var(--gray-600)" }}>
+                No {filter !== 'all' ? filter : ''} comments found.
+              </p>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {comments.map((comment, i) => (
+                <div
+                  key={comment._id}
+                  style={{
+                    padding: "1.125rem 1.5rem",
+                    borderBottom: i < comments.length - 1 ? "1px solid var(--border-subtle)" : "none",
+                    transition: "background 150ms ease",
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = "var(--brand-50)"}
+                  onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+                >
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                        <span style={{ fontWeight: 600, color: "var(--gray-900)", fontSize: "0.9375rem" }}>{comment.name || 'Anonymous'}</span>
+                        <span style={{ fontSize: "0.8125rem", color: "var(--gray-400)" }}>{comment.email}</span>
+                        <span className={`badge ${comment.approved ? 'badge-success' : 'badge-warning'}`}>
+                          {comment.approved ? 'Approved' : 'Pending'}
+                        </span>
+                      </div>
+
+                      <p style={{ fontSize: "0.9375rem", color: "var(--gray-700)", lineHeight: 1.6, margin: "0 0 0.625rem" }}>
+                        {comment.content}
+                      </p>
+
+                      <div style={{ fontSize: "0.8125rem", color: "var(--gray-400)", display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
+                        <span>On: <span style={{ color: "var(--gray-600)", fontWeight: 500 }}>{comment.postId?.title || 'Unknown post'}</span></span>
+                        <span>{format(new Date(comment.createdAt), 'd MMM yyyy, h:mm a')}</span>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.25rem", flexShrink: 0 }}>
+                      {!comment.approved && (
+                        <button
+                          onClick={() => handleApprove(comment._id)}
+                          disabled={actionId === comment._id}
+                          title="Approve comment"
+                          style={{
+                            display: "inline-flex", alignItems: "center", justifyContent: "center",
+                            width: 32, height: 32, borderRadius: "var(--radius-md)",
+                            background: "none", border: "none", cursor: "pointer",
+                            color: "var(--gray-400)", transition: "all 150ms ease",
+                            opacity: actionId === comment._id ? 0.5 : 1,
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.background = "var(--success-50)"; e.currentTarget.style.color = "var(--success-700)"; }}
+                          onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "var(--gray-400)"; }}
+                        >
+                          <CheckCircle size={17} />
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDelete(comment._id)}
+                        disabled={actionId === comment._id}
+                        title="Delete comment"
+                        style={{
+                          display: "inline-flex", alignItems: "center", justifyContent: "center",
+                          width: 32, height: 32, borderRadius: "var(--radius-md)",
+                          background: "none", border: "none", cursor: "pointer",
+                          color: "var(--gray-400)", transition: "all 150ms ease",
+                          opacity: actionId === comment._id ? 0.5 : 1,
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = "var(--danger-50)"; e.currentTarget.style.color = "var(--danger-700)"; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "var(--gray-400)"; }}
+                      >
+                        <Trash2 size={17} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </AdminLayout>
+  )
 }

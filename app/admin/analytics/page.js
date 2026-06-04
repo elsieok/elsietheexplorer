@@ -1,153 +1,147 @@
 'use client'
 import { useState, useEffect } from "react"
-import AdminLayout from "@/app/components/admin/AdminLayout.js"
-import { BarChart3, TrendingUp, Users, Clock } from 'lucide-react'
+import AdminLayout from "@/app/components/admin/AdminLayout"
+import { BarChart3, TrendingUp, Heart, MessageSquare, FileText, Eye } from 'lucide-react'
 
 export default function AdminAnalytics() {
-    const [analytics, setAnalytics] = useState({
-        totalPosts: 0,
-        totalViews: 0,
-        totalLikes: 0,
-        totalComments: 0,
-        popularPosts: []
+  const [data, setData] = useState({ totalPosts: 0, totalViews: 0, totalLikes: 0, totalComments: 0, popularPosts: [] })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/posts/analytics', {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` },
     })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d) setData(d); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
 
-    const [loading, setLoading] = useState(true)
+  const stats = [
+    { label: 'Total posts',    value: data.totalPosts,    icon: FileText,      accent: 'var(--brand-500)',    bg: 'var(--brand-50)' },
+    { label: 'Total views',    value: data.totalViews,    icon: Eye,           accent: '#0ea5e9',              bg: '#f0f9ff' },
+    { label: 'Total likes',    value: data.totalLikes,    icon: Heart,         accent: '#ec4899',              bg: '#fdf2f8' },
+    { label: 'Total comments', value: data.totalComments, icon: MessageSquare, accent: '#8b5cf6',              bg: '#f5f3ff' },
+  ]
 
-    useEffect(() => {
-        fetchAnalytics()
-    }, [])
+  const maxViews = Math.max(...(data.popularPosts?.map(p => p.views) ?? [1]), 1)
 
-    const fetchAnalytics = async () => {
-        try {
-            const response = await fetch('/api/posts/analytics', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-                }
-            })
+  return (
+    <AdminLayout>
+      <div>
+        <div style={{ marginBottom: "1.75rem" }}>
+          <h1 style={{ fontFamily: "var(--font-serif)", fontWeight: 700, fontSize: "1.625rem", color: "var(--gray-900)", letterSpacing: "-0.02em", margin: 0 }}>
+            Analytics
+          </h1>
+          <p style={{ color: "var(--gray-500)", fontSize: "0.9rem", margin: "0.25rem 0 0" }}>
+            Overview of your content performance.
+          </p>
+        </div>
 
-            if (response.ok) {
-                const data = await response.json()
-                setAnalytics(data)
-            }
-        } catch (error) {
-            console.error('Failed to fetch analytics:', error)
-        }
-        setLoading(false)
-    }
-
-    if (loading) {
-        return (
-            <AdminLayout>
-                <div className="text-center py-12">
-                    <p className="text-gray-900">Loading analytics...</p>
-                </div>
-            </AdminLayout>
-        )
-    }
-
-    return (
-        <AdminLayout>
-            <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-8">Analytics</h1>
-
-                {/* Overview cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-[#E2B9B8] rounded-lg shadow-md p-6 border border-gray-200">
-                        <div className="flex items-center">
-                            <div className="p-3 rounded-lg bg-[#C56462] text-white">
-                                <BarChart3 size={24} />
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Total Posts</p>
-                                <p className="text-2xl font-semibold text-gray-900">{analytics.totalPosts}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-[#B2E9F0] rounded-lg shadow-md p-6 border border-gray-200">
-                        <div className="flex items-center">
-                            <div className="p-3 rounded-lg bg-[#64D4E2] text-white">
-                                <TrendingUp size={24} />
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Total Views</p>
-                                <p className="text-2xl font-semibold text-gray-900">{analytics.totalViews}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-[#F5E6E6] rounded-lg shadow-md p-6 border border-gray-200">
-                        <div className="flex items-center">
-                            <div className="p-3 rounded-lg bg-[#CE8988] text-white">
-                                <Users size={24} />
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Total Likes</p>
-                                <p className="text-2xl font-semibold text-gray-900">{analytics.totalLikes}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-[#E2B9B8] rounded-lg shadow-md p-6 border border-gray-200">
-                        <div className="flex items-center">
-                            <div className="p-3 rounded-lg bg-[#803635] text-white">
-                                <Clock size={24} />
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Total Comments</p>
-                                <p className="text-2xl font-semibold text-gray-900">{analytics.totalComments}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Popular posts */}
-                <div className="bg-white rounded-lg shadow-md border border-[#E2B9B8]">
-                    <div className="p-6 border-b border-gray-200 bg-[#F5E6E6]">
-                        <h2 className="text-xl font-semibold text-gray-900">Top Performing Posts</h2>
-                    </div>
-                    <div className="p-6">
-                        {(analytics.popularPosts?.length ?? 0) === 0 ? (
-                            <p className="text-gray-500">No posts data available</p>
-                        ) : (
-                            <div className="space-y-6">
-                                {analytics.popularPosts.map((post, index) => (
-                                    <div key={post._id} className="flex items-center justify-between p-4 border border-[#E2B9B8] rounded-lg hover:bg-[#F5E6E6] transition-colors">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 w-8 h-8 bg-[#C56462] text-white rounded-full flex items-center justify-center font-semibold text-sm mr-4">
-                                                {index + 1}
-                                            </div>
-                                            <div>
-                                                <h3 className="font-medium text-gray-900">{post.title}</h3>
-                                                <p className="text-sm text-gray-500">Performance metrics</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center space-x-6 text-sm">
-                                            <div className="text-center">
-                                                <div className="font-semibold text-gray-900">{post.views}</div>
-                                                <div className="text-gray-500">Views</div>
-                                            </div>
-
-                                            <div className="text-center">
-                                                <div className="font-semibold text-gray-900">{post.likes}</div>
-                                                <div className="text-gray-500">Likes</div>
-                                            </div>
-
-                                            <div className="text-center">
-                                                <div className="font-semibold text-gray-900">
-                                                    {post.views > 0 ? Math.round((post.likes / post.views) * 100) : 0}%
-                                                </div>
-                                                <div className="text-gray-500">Engagement</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </div>
+        {/* Stats */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
+          {stats.map(({ label, value, icon: Icon, accent, bg }) => (
+            <div key={label} className="admin-stat-card">
+              <div className="admin-stat-icon" style={{ background: bg, color: accent }}>
+                <Icon size={20} strokeWidth={1.75} />
+              </div>
+              <div>
+                <p style={{ fontSize: "0.8125rem", color: "var(--gray-500)", margin: "0 0 0.25rem", fontWeight: 500 }}>{label}</p>
+                {loading ? (
+                  <div className="skeleton" style={{ height: "1.5rem", width: "60px" }} />
+                ) : (
+                  <p style={{ fontSize: "1.625rem", fontWeight: 700, color: "var(--gray-900)", margin: 0, letterSpacing: "-0.02em", fontFamily: "var(--font-serif)" }}>
+                    {value.toLocaleString()}
+                  </p>
+                )}
+              </div>
             </div>
-        </AdminLayout>
-    )
+          ))}
+        </div>
+
+        {/* Top posts */}
+        <div className="admin-panel-card">
+          <div className="admin-panel-header" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <h2 style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <TrendingUp size={17} style={{ color: "var(--brand-500)" }} />
+              Top performing posts
+            </h2>
+          </div>
+
+          <div style={{ padding: "0.75rem 1.5rem 1.25rem" }}>
+            {loading ? (
+              [1,2,3].map(i => (
+                <div key={i} style={{ padding: "1rem 0", borderBottom: "1px solid var(--border-subtle)" }}>
+                  <div className="skeleton" style={{ height: "0.9rem", width: "60%", marginBottom: "0.625rem" }} />
+                  <div className="skeleton" style={{ height: "0.5rem", borderRadius: "var(--radius-full)" }} />
+                </div>
+              ))
+            ) : (data.popularPosts?.length ?? 0) === 0 ? (
+              <p style={{ color: "var(--gray-400)", textAlign: "center", padding: "2rem 0", margin: 0 }}>No data yet.</p>
+            ) : (
+              data.popularPosts.map((post, i) => {
+                const engagementPct = post.views > 0 ? Math.round((post.likes / post.views) * 100) : 0
+                const barWidth = Math.round((post.views / maxViews) * 100)
+                return (
+                  <div
+                    key={post._id}
+                    style={{
+                      padding: "1rem 0",
+                      borderBottom: i < data.popularPosts.length - 1 ? "1px solid var(--border-subtle)" : "none",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "0.625rem" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flex: 1, minWidth: 0 }}>
+                        <span
+                          style={{
+                            width: 24, height: 24, borderRadius: "50%",
+                            background: i === 0 ? "var(--brand-100)" : "var(--gray-100)",
+                            color: i === 0 ? "var(--brand-700)" : "var(--gray-500)",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            fontSize: "0.75rem", fontWeight: 700, flexShrink: 0,
+                          }}
+                        >
+                          {i + 1}
+                        </span>
+                        <p style={{ fontWeight: 500, color: "var(--gray-800)", fontSize: "0.9375rem", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {post.title}
+                        </p>
+                      </div>
+                      <div style={{ display: "flex", gap: "1.25rem", flexShrink: 0, fontSize: "0.8125rem" }}>
+                        <span style={{ color: "var(--gray-500)", display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                          <Eye size={12} /> {post.views.toLocaleString()}
+                        </span>
+                        <span style={{ color: "var(--gray-500)", display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                          <Heart size={12} /> {post.likes.toLocaleString()}
+                        </span>
+                        <span
+                          style={{
+                            color: engagementPct >= 10 ? "var(--success-700)" : "var(--gray-400)",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {engagementPct}%
+                        </span>
+                      </div>
+                    </div>
+                    {/* Mini bar chart */}
+                    <div style={{ height: 6, background: "var(--gray-100)", borderRadius: "var(--radius-full)", overflow: "hidden" }}>
+                      <div
+                        style={{
+                          height: "100%",
+                          width: `${barWidth}%`,
+                          background: i === 0 ? "var(--brand-400)" : "var(--gray-300)",
+                          borderRadius: "var(--radius-full)",
+                          transition: "width 600ms ease",
+                        }}
+                      />
+                    </div>
+                  </div>
+                )
+              })
+            )}
+          </div>
+        </div>
+      </div>
+    </AdminLayout>
+  )
 }

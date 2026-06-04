@@ -1,131 +1,132 @@
 'use client'
 import { useState, useEffect } from "react"
-import AdminLayout from "@/app/components/admin/AdminLayout.js"
-import { FileText, Eye, Heart, MessageSquare } from 'lucide-react'
+import AdminLayout from "@/app/components/admin/AdminLayout"
+import { FileText, Eye, Heart, MessageSquare, TrendingUp } from 'lucide-react'
+import Link from "next/link"
+
+const statDefs = [
+  { key: 'totalPosts',    label: 'Total posts',    icon: FileText,     accent: 'var(--brand-500)',    bg: 'var(--brand-50)' },
+  { key: 'totalViews',    label: 'Total views',    icon: Eye,          accent: '#0ea5e9',              bg: '#f0f9ff' },
+  { key: 'totalLikes',    label: 'Total likes',    icon: Heart,        accent: '#ec4899',              bg: '#fdf2f8' },
+  { key: 'totalComments', label: 'Total comments', icon: MessageSquare,accent: '#8b5cf6',              bg: '#f5f3ff' },
+]
 
 export default function AdminDashboard() {
-    const [stats, setStats] = useState({
-        totalPosts: 0,
-        totalViews: 0,
-        totalLikes: 0,
-        totalComments: 0,
-        popularPosts: []
-    })
+  const [stats, setStats] = useState({ totalPosts: 0, totalViews: 0, totalLikes: 0, totalComments: 0, popularPosts: [] })
+  const [loading, setLoading] = useState(true)
 
-    const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch('/api/posts/analytics')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setStats(data); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
 
-    useEffect(() => {
-        fetchStats()
-    }, [])
+  return (
+    <AdminLayout>
+      <div>
+        <div style={{ marginBottom: "1.75rem" }}>
+          <h1 style={{ fontFamily: "var(--font-serif)", fontWeight: 700, fontSize: "1.625rem", color: "var(--gray-900)", letterSpacing: "-0.02em", margin: 0 }}>
+            Dashboard
+          </h1>
+          <p style={{ color: "var(--gray-500)", fontSize: "0.9rem", margin: "0.25rem 0 0" }}>
+            Welcome back — here&apos;s an overview of your site.
+          </p>
+        </div>
 
-    const fetchStats = async () => {
-        try {
-            const response = await fetch('/api/posts/analytics')
-            if (response.ok) {
-                const data = await response.json()
-                setStats(data)
-            }
-        } catch (error) {
-            console.error('Failed to fetch stats:', error)
-        }
-        setLoading(false)
-    }
-
-    const statCards = [
-        {
-            title: 'Total Posts',
-            value: stats.totalPosts,
-            icon: FileText,
-            color: 'bg-[#C56462]',
-            lightColor: 'bg-[#E2B9B8]'
-        },
-        {
-            title: 'Total Views',
-            value: stats.totalViews,
-            icon: Eye,
-            color: 'bg-[#64D4E2]',
-            lightColor: 'bg-[#B2E9F0]'
-        },
-        {
-            title: 'Total Likes',
-            value: stats.totalLikes,
-            icon: Heart,
-            color: 'bg-[#CE8988]',
-            lightColor: 'bg-[#F5E6E6]'
-        },
-        {
-            title: 'Total Comments',
-            value: stats.totalComments,
-            icon: MessageSquare,
-            color: 'bg-[#803635]',
-            lightColor: 'bg-[#E2B9B8]'
-        }
-    ]
-
-    if (loading) {
-        return (
-            <AdminLayout>
-                <div className="text-center py-12">
-                    <p className="text-gray-900">Loading dashboard...</p>
-                </div>
-            </AdminLayout>
-        )
-    }
-
-    return (
-        <AdminLayout>
-            <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
-            
-                {/* Stats cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    {statCards.map((stat) => (
-                        <div key={stat.title} className={`${stat.lightColor} rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow`}>
-                            <div className="flex items-center">
-                                <div className={`p-3 rounded-lg ${stat.color} text-white`}>
-                                    <stat.icon size={24} />
-                                </div>
-                                <div className="ml-4">
-                                    <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                                    <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Popular posts */}
-                <div className="bg-white rounded-lg shadow-md border border-[#E2B9B8]">
-                    <div className="p-6 border-b border-gray-200 bg-[#F5E6E6]">
-                        <h2 className="text-xl font-semibold text-gray-900">Popular Posts</h2>
-                    </div>
-                    <div className="p-6">
-                        {(stats.popularPosts?.length ?? 0) === 0 ? (
-                            <p className="text-gray-500">No posts yet</p>
-                        ) : (
-                            <div className="space-y-4">
-                                {stats.popularPosts.map((post) => (
-                                    <div key={post._id} className="flex items-center justify-between p-4 border border-[#E2B9B8] rounded-lg hover:bg-[#F5E6E6] transition-colors">
-                                        <div>
-                                            <h3 className="font-medium text-gray-900">{post.title}</h3>
-                                        </div>
-                                        <div className="flex items-center space-x-6 text-sm text-gray-600">
-                                            <span className="flex items-center gap-1">
-                                                <Eye size={16} className="text-[#64D4E2]" />
-                                                {post.views}
-                                            </span>
-                                            <span className="flex items-center gap-1">
-                                                <Heart size={16} className="text-[#CE8988]" />
-                                                {post.likes}
-                                            </span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </div>
+        {/* Stat cards */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
+          {statDefs.map(({ key, label, icon: Icon, accent, bg }) => (
+            <div key={key} className="admin-stat-card">
+              <div className="admin-stat-icon" style={{ background: bg, color: accent }}>
+                <Icon size={20} strokeWidth={1.75} />
+              </div>
+              <div>
+                <p style={{ fontSize: "0.8125rem", color: "var(--gray-500)", margin: "0 0 0.25rem", fontWeight: 500 }}>{label}</p>
+                {loading ? (
+                  <div className="skeleton" style={{ height: "1.5rem", width: "60px" }} />
+                ) : (
+                  <p style={{ fontSize: "1.625rem", fontWeight: 700, color: "var(--gray-900)", margin: 0, letterSpacing: "-0.02em", fontFamily: "var(--font-serif)" }}>
+                    {stats[key].toLocaleString()}
+                  </p>
+                )}
+              </div>
             </div>
-        </AdminLayout>
-    )
+          ))}
+        </div>
+
+        {/* Popular posts */}
+        <div className="admin-panel-card">
+          <div className="admin-panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <h2 style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <TrendingUp size={17} style={{ color: "var(--brand-500)" }} />
+              Popular posts
+            </h2>
+            <Link href="/admin/posts" style={{ fontSize: "0.8125rem", color: "var(--brand-600)", textDecoration: "none", fontWeight: 500 }}>
+              All posts →
+            </Link>
+          </div>
+
+          <div style={{ padding: "0.5rem 0" }}>
+            {loading ? (
+              [1,2,3].map(i => (
+                <div key={i} style={{ display: "flex", alignItems: "center", padding: "0.875rem 1.5rem", gap: "1rem" }}>
+                  <div className="skeleton" style={{ width: 28, height: 28, borderRadius: "50%" }} />
+                  <div style={{ flex: 1 }}>
+                    <div className="skeleton" style={{ height: "0.875rem", width: "60%", marginBottom: "0.375rem" }} />
+                    <div className="skeleton" style={{ height: "0.75rem", width: "100px" }} />
+                  </div>
+                </div>
+              ))
+            ) : (stats.popularPosts?.length ?? 0) === 0 ? (
+              <div style={{ padding: "2.5rem", textAlign: "center", color: "var(--gray-400)", fontSize: "0.9rem" }}>
+                No posts yet.
+              </div>
+            ) : (
+              stats.popularPosts.map((post, i) => (
+                <div
+                  key={post._id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "0.875rem 1.5rem",
+                    gap: "1rem",
+                    borderBottom: i < stats.popularPosts.length - 1 ? "1px solid var(--border-subtle)" : "none",
+                    transition: "background 150ms ease",
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = "var(--brand-50)"}
+                  onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+                >
+                  <div
+                    style={{
+                      width: 28, height: 28, borderRadius: "50%",
+                      background: i === 0 ? "var(--brand-100)" : "var(--gray-100)",
+                      color: i === 0 ? "var(--brand-700)" : "var(--gray-500)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: "0.8125rem", fontWeight: 700, flexShrink: 0,
+                    }}
+                  >
+                    {i + 1}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontWeight: 500, color: "var(--gray-800)", fontSize: "0.9375rem", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {post.title}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: "1.25rem", flexShrink: 0 }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.8125rem", color: "var(--gray-400)" }}>
+                      <Eye size={13} strokeWidth={2} /> {post.views}
+                    </span>
+                    <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.8125rem", color: "var(--gray-400)" }}>
+                      <Heart size={13} strokeWidth={2} /> {post.likes}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    </AdminLayout>
+  )
 }

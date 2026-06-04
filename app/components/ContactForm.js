@@ -1,119 +1,172 @@
 'use client'
 import { useState } from 'react'
-import { Send } from 'lucide-react'
+import { Send, CheckCircle } from 'lucide-react'
 
 export default function ContactForm() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: ''
-    })
-    const [submitting, setSubmitting] = useState(false)
-    const [submitted, setSubmitted] = useState(false)
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [errors, setErrors] = useState({})
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setSubmitting(true)
+  const validate = () => {
+    const e = {}
+    if (!formData.name.trim()) e.name = 'Name is required'
+    if (!formData.email) e.email = 'Email is required'
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) e.email = 'Enter a valid email'
+    if (!formData.message.trim()) e.message = 'Message is required'
+    return e
+  }
 
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            })
+  const handleSubmit = async (ev) => {
+    ev.preventDefault()
+    const e = validate()
+    if (Object.keys(e).length) { setErrors(e); return; }
+    setErrors({})
+    setSubmitting(true)
 
-            if (response.ok) {
-                setSubmitted(true)
-                setFormData({ name: '', email: '', message: '' })
-                setTimeout(() => setSubmitted(false), 5000)
-            } else {
-                alert('Failed to send message. Please try again.')
-            }
-        } catch (error) {
-            console.error('Failed to send message:', error)
-            alert('Failed to send message. Please try again.')
-        }
+    try {
+      const r = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      if (r.ok) {
+        setSubmitted(true)
+        setFormData({ name: '', email: '', message: '' })
+      }
+    } catch { /* silently fail */ }
+    setSubmitting(false)
+  }
 
-        setSubmitting(false)
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }))
+  }
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
-    }
-
+  if (submitted) {
     return (
-        <div className="bg-[#E2B9B8] rounded-xl shadow-lg p-8 border-2 border-[#C56462]">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Get In Touch</h3>
-            
-            {submitted ? (
-                <div className="bg-green-100 border-2 border-green-400 text-green-800 px-4 py-3 rounded-lg">
-                    Thanks for reaching out! I&apos;ll get back to you soon.
-                </div>
-            ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-900 mb-2">
-                            Name *
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            required
-                            value={formData.name}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border-2 border-[#C56462] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#803635] bg-white text-gray-900"
-                            placeholder="Your name"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-900 mb-2">
-                            Email *
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            required
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border-2 border-[#C56462] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#803635] bg-white text-gray-900"
-                            placeholder="your.email@example.com"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="message" className="block text-sm font-medium text-gray-900 mb-2">
-                            Message *
-                        </label>
-                        <textarea
-                            id="message"
-                            name="message"
-                            required
-                            rows={6}
-                            value={formData.message}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border-2 border-[#C56462] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#803635] bg-white text-gray-900"
-                            placeholder="What would you like to say?"
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={submitting}
-                        className="w-full flex items-center justify-center gap-2 bg-[#C56462] text-white px-6 py-3 rounded-lg hover:bg-[#803635] transition-colors disabled:opacity-50 font-semibold shadow-md"
-                    >
-                        <Send size={20} />
-                        {submitting ? 'Sending...' : 'Send Message'}
-                    </button>
-                </form>
-            )}
+      <div
+        style={{
+          background: 'var(--bg-surface)',
+          border: '1px solid var(--border-subtle)',
+          borderRadius: 'var(--radius-xl)',
+          padding: '3rem 2rem',
+          textAlign: 'center',
+          boxShadow: 'var(--shadow-sm)',
+          animation: 'fadeIn 300ms ease',
+        }}
+      >
+        <div
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: '50%',
+            background: 'var(--success-50)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginInline: 'auto',
+            marginBottom: '1.25rem',
+          }}
+        >
+          <CheckCircle size={26} style={{ color: 'var(--success-700)' }} strokeWidth={1.75} />
         </div>
+        <h3 style={{ fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: '1.375rem', color: 'var(--gray-900)', marginBottom: '0.5rem' }}>
+          Message sent!
+        </h3>
+        <p style={{ color: 'var(--gray-500)', fontSize: '0.9375rem', margin: 0 }}>
+          Thanks for reaching out — I&apos;ll get back to you soon.
+        </p>
+      </div>
     )
+  }
+
+  return (
+    <div
+      style={{
+        background: 'var(--bg-surface)',
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 'var(--radius-xl)',
+        padding: '2rem',
+        boxShadow: 'var(--shadow-sm)',
+      }}
+    >
+      <h3
+        style={{
+          fontFamily: 'var(--font-serif)',
+          fontWeight: 600,
+          fontSize: '1.375rem',
+          color: 'var(--gray-900)',
+          marginBottom: '1.5rem',
+          letterSpacing: '-0.015em',
+        }}
+      >
+        Get in touch
+      </h3>
+
+      <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.125rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.875rem' }}>
+          <div>
+            <label className="form-label" htmlFor="contact-name">
+              Name <span style={{ color: 'var(--brand-500)' }}>*</span>
+            </label>
+            <input
+              id="contact-name"
+              name="name"
+              type="text"
+              className={`form-input${errors.name ? ' error' : ''}`}
+              placeholder="Your name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            {errors.name && <p style={{ fontSize: '0.8rem', color: 'var(--danger-500)', margin: '0.3rem 0 0' }}>{errors.name}</p>}
+          </div>
+          <div>
+            <label className="form-label" htmlFor="contact-email">
+              Email <span style={{ color: 'var(--brand-500)' }}>*</span>
+            </label>
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              className={`form-input${errors.email ? ' error' : ''}`}
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && <p style={{ fontSize: '0.8rem', color: 'var(--danger-500)', margin: '0.3rem 0 0' }}>{errors.email}</p>}
+          </div>
+        </div>
+
+        <div>
+          <label className="form-label" htmlFor="contact-message">
+            Message <span style={{ color: 'var(--brand-500)' }}>*</span>
+          </label>
+          <textarea
+            id="contact-message"
+            name="message"
+            rows={6}
+            className={`form-input form-textarea${errors.message ? ' error' : ''}`}
+            placeholder="What would you like to say?"
+            value={formData.message}
+            onChange={handleChange}
+          />
+          {errors.message && <p style={{ fontSize: '0.8rem', color: 'var(--danger-500)', margin: '0.3rem 0 0' }}>{errors.message}</p>}
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            disabled={submitting}
+            className="btn btn-primary"
+            style={{ width: '100%', justifyContent: 'center' }}
+          >
+            <Send size={16} />
+            {submitting ? 'Sending…' : 'Send message'}
+          </button>
+        </div>
+      </form>
+    </div>
+  )
 }

@@ -2,172 +2,246 @@
 import { useState, useEffect } from 'react'
 import Link from "next/link"
 import { ChevronDown, ChevronUp, ExternalLink } from 'lucide-react'
-import { SiGithub } from '@icons-pack/react-simple-icons';
+import { SiGithub } from '@icons-pack/react-simple-icons'
 import { MDXRemote } from "next-mdx-remote"
 import { serialize } from "next-mdx-remote/serialize"
 import { components } from "@/mdx-components"
 
 export default function ProjectsPage() {
-    const [projects, setProjects] = useState([])
-    const [expandedId, setExpandedId] = useState(null)
-    const [loading, setLoading] = useState(true)
+  const [projects, setProjects] = useState([])
+  const [expandedId, setExpandedId] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        // Fetch projects from your MDX files
-        fetch('/api/projects')
-            .then(res => res.json())
-            .then(async data => {
-                // Serialize MDX content for each project
-                const serializedProjects = await Promise.all(
-                    data.map(async project => ({
-                        ...project,
-                        mdxContent: await serialize(project.content)
-                    }))
-                )
-                setProjects(serializedProjects)
-                setLoading(false)
-            })
-            .catch(err => {
-                console.error('Failed to fetch projects:', err)
-                setLoading(false)
-            })
-    }, [])
-
-    const toggleProject = (slug) => {
-        setExpandedId(expandedId === slug ? null : slug)
-    }
-
-    if (loading) {
-        return (
-            <div className="max-w-4xl mx-auto px-4 py-12">
-                <div className="text-center">
-                    <p className="text-gray-900">Loading projects...</p>
-                </div>
-            </div>
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(r => r.json())
+      .then(async data => {
+        const serialized = await Promise.all(
+          data.map(async p => ({ ...p, mdxContent: await serialize(p.content) }))
         )
-    }
+        setProjects(serialized)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
 
+  const toggle = (slug) => setExpandedId(expandedId === slug ? null : slug)
+
+  if (loading) {
     return (
-        <div className="max-w-4xl mx-auto px-4 py-12">
-            {/* Page header */}
-            <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold mb-4 text-gray-900">
-                    My Projects
-                </h1>
-                <p className="text-gray-900 text-lg">Check out my stuff!</p> 
-                <p className="text-gray-900 text-lg"> 
-                    You can also visit my{' '}
-                    <Link 
-                        href="https://github.com/elsieok" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-[#803635] hover:text-[#6B2D2C] hover:underline inline-flex items-center gap-1"
-                    >
-                        GitHub <SiGithub size={16} />
-                    </Link>
-                    {' '}for source code.
-                </p>
+      <div style={{ maxWidth: "52rem", marginInline: "auto", padding: "3rem 1.25rem" }}>
+        <div className="skeleton" style={{ height: "2.25rem", width: "200px", marginBottom: "0.75rem" }} />
+        <div className="skeleton" style={{ height: "1rem", width: "300px", marginBottom: "2.5rem" }} />
+        {[1, 2, 3].map(i => (
+          <div key={i} style={{ marginBottom: "1rem", background: "var(--bg-surface)", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-xl)", padding: "1.5rem" }}>
+            <div className="skeleton" style={{ height: "1.375rem", width: "200px", marginBottom: "0.75rem" }} />
+            <div className="skeleton" style={{ height: "0.875rem", width: "80%", marginBottom: "0.875rem" }} />
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              <div className="skeleton" style={{ height: "1.5rem", width: "60px", borderRadius: "var(--radius-full)" }} />
+              <div className="skeleton" style={{ height: "1.5rem", width: "80px", borderRadius: "var(--radius-full)" }} />
             </div>
-
-            {/* Projects list */}
-            {projects.length === 0 ? (
-                <div className="text-center py-12 bg-[#E2B9B8] rounded-lg">
-                    <p className="text-gray-900">
-                        Nothing here yet, still tinkering away!
-                    </p>
-                </div>
-            ) : (
-                <div className="space-y-4">
-                    {projects.map((project) => (
-                        <div
-                            key={project.slug}
-                            className={`bg-white rounded-lg shadow-md border border-[#E2B9B8] overflow-hidden transition-all duration-300 ${
-                                expandedId === project.slug ? 'shadow-xl' : 'hover:shadow-lg'
-                            }`}
-                        >
-                            {/* Card Header - Always Visible */}
-                            <button
-                                onClick={() => toggleProject(project.slug)}
-                                className="w-full p-6 text-left hover:bg-[#F5E6E6] transition-colors"
-                            >
-                                <div className="flex items-start justify-between gap-4">
-                                    <div className="flex-1">
-                                        <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-                                            {project.name}
-                                            {expandedId === project.slug ? (
-                                                <ChevronUp className="text-[#C56462]" size={24} />
-                                            ) : (
-                                                <ChevronDown className="text-[#C56462]" size={24} />
-                                            )}
-                                        </h3>
-                                        
-                                        {/* Brief description - extract first line or use excerpt */}
-                                        <p className="text-gray-700 line-clamp-2">
-                                            {project.excerpt || project.content.split('\n')[0]}
-                                        </p>
-
-                                        {/* Tech tags */}
-                                        <div className="flex flex-wrap gap-2 mt-3">
-                                            {project.tech?.map((tech) => (
-                                                <span 
-                                                    key={tech} 
-                                                    className="bg-[#E2B9B8] text-gray-800 text-xs px-3 py-1 rounded-full font-semibold"
-                                                >
-                                                    {tech}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </button>
-
-                            {/* Expanded Content */}
-                            <div
-                                className={`transition-all duration-300 ease-in-out ${
-                                    expandedId === project.slug
-                                        ? 'max-h-[2000px] opacity-100'
-                                        : 'max-h-0 opacity-0'
-                                }`}
-                            >
-                                <div className="px-6 pb-6 border-t border-[#E2B9B8]">
-                                    {/* Full description */}
-                                    <div className="mt-6 mb-6 bg-[#F5E6E6] rounded-lg p-6">
-                                        <div className="prose prose-sm max-w-none text-gray-800">
-                                            <MDXRemote {...project.mdxContent} components={components} />
-                                        </div>
-                                    </div>
-
-                                    {/* Links */}
-                                    <div className="flex gap-3 flex-wrap">
-                                        {project.link && (
-                                            <Link
-                                                href={project.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 bg-[#64D4E2] text-white px-4 py-2 rounded-lg hover:bg-[#22A1B2] transition-colors font-semibold shadow-md"
-                                            >
-                                                <ExternalLink size={16} />
-                                                View Website
-                                            </Link>
-                                        )}
-                                        {project.source && (
-                                            <Link
-                                                href={project.source}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 bg-[#803635] text-white px-4 py-2 rounded-lg hover:bg-[#6B2D2C] transition-colors font-semibold shadow-md"
-                                            >
-                                                <SiGithub size={16} />
-                                                View Source
-                                            </Link>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+          </div>
+        ))}
+      </div>
     )
+  }
+
+  return (
+    <div style={{ maxWidth: "52rem", marginInline: "auto", padding: "3rem 1.25rem 5rem" }}>
+
+      {/* Header */}
+      <div style={{ marginBottom: "2.5rem" }}>
+        <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.75rem, 4vw, 2.5rem)", fontWeight: 700, color: "var(--gray-900)", letterSpacing: "-0.025em", marginBottom: "0.5rem" }}>
+          Projects
+        </h1>
+        <p style={{ color: "var(--gray-500)", fontSize: "1.0625rem", margin: 0 }}>
+          Things I&apos;ve built. Also on{' '}
+          <Link href="https://github.com/elsieok" target="_blank" rel="noopener noreferrer"
+            style={{ color: "var(--brand-600)", fontWeight: 500, display: "inline-flex", alignItems: "center", gap: "0.25rem", verticalAlign: "middle" }}>
+            GitHub <SiGithub size={14} />
+          </Link>
+          .
+        </p>
+      </div>
+
+      {projects.length === 0 ? (
+        <div
+          style={{
+            padding: "4rem 2rem",
+            textAlign: "center",
+            background: "var(--bg-surface)",
+            border: "1px solid var(--border-subtle)",
+            borderRadius: "var(--radius-xl)",
+          }}
+        >
+          <p style={{ fontSize: "2.5rem", marginBottom: "0.75rem" }}>🔧</p>
+          <p style={{ fontWeight: 600, color: "var(--gray-800)", marginBottom: "0.375rem" }}>Nothing here yet</p>
+          <p style={{ color: "var(--gray-500)", fontSize: "0.9rem", margin: 0 }}>Still tinkering away…</p>
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+          {projects.map(project => {
+            const isOpen = expandedId === project.slug
+            return (
+              <div
+                key={project.slug}
+                style={{
+                  background: "var(--bg-surface)",
+                  border: "1px solid",
+                  borderColor: isOpen ? "var(--brand-200)" : "var(--border-subtle)",
+                  borderRadius: "var(--radius-xl)",
+                  overflow: "hidden",
+                  boxShadow: isOpen ? "var(--shadow-md)" : "var(--shadow-sm)",
+                  transition: "border-color 200ms ease, box-shadow 200ms ease",
+                }}
+              >
+                {/* Header button */}
+                <button
+                  onClick={() => toggle(project.slug)}
+                  aria-expanded={isOpen}
+                  style={{
+                    width: "100%",
+                    padding: "1.5rem",
+                    textAlign: "left",
+                    background: isOpen ? "var(--brand-50)" : "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "background 150ms ease",
+                  }}
+                  onMouseEnter={e => { if (!isOpen) e.currentTarget.style.background = "var(--gray-50)" }}
+                  onMouseLeave={e => { if (!isOpen) e.currentTarget.style.background = "transparent" }}
+                >
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.625rem", marginBottom: "0.5rem" }}>
+                        <h3
+                          style={{
+                            fontFamily: "var(--font-serif)",
+                            fontWeight: 600,
+                            fontSize: "1.1875rem",
+                            color: "var(--gray-900)",
+                            margin: 0,
+                            letterSpacing: "-0.015em",
+                          }}
+                        >
+                          {project.name}
+                        </h3>
+                      </div>
+                      <p
+                        style={{
+                          fontSize: "0.9rem",
+                          color: "var(--gray-500)",
+                          margin: "0 0 0.875rem",
+                          lineHeight: 1.55,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {project.excerpt || project.content?.split('\n')[0]}
+                      </p>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem" }}>
+                        {project.tech?.map(t => (
+                          <span key={t} className="tag tag-gray">{t}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        color: "var(--brand-400)",
+                        flexShrink: 0,
+                        marginTop: "0.125rem",
+                        transition: "transform 200ms ease",
+                        transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                      }}
+                    >
+                      <ChevronDown size={20} strokeWidth={2} />
+                    </div>
+                  </div>
+                </button>
+
+                {/* Expanded content */}
+                {isOpen && (
+                  <div
+                    style={{
+                      borderTop: "1px solid var(--border-subtle)",
+                      padding: "1.5rem",
+                      animation: "fadeIn 200ms ease",
+                    }}
+                  >
+                    <div
+                      className="prose"
+                      style={{
+                        marginBottom: "1.5rem",
+                        maxWidth: "none",
+                        fontSize: "0.9375rem",
+                      }}
+                    >
+                      <MDXRemote {...project.mdxContent} components={components} />
+                    </div>
+
+                    <div style={{ display: "flex", gap: "0.625rem", flexWrap: "wrap" }}>
+                      {project.link && (
+                        <Link
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-sm"
+                          style={{
+                            background: "var(--brand-500)",
+                            color: "white",
+                            border: "none",
+                            boxShadow: "var(--shadow-brand)",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.4rem",
+                            padding: "0.5rem 1rem",
+                            borderRadius: "var(--radius-md)",
+                            fontSize: "0.875rem",
+                            fontWeight: 500,
+                            textDecoration: "none",
+                            transition: "background 150ms ease",
+                          }}
+                        >
+                          <ExternalLink size={14} />
+                          View site
+                        </Link>
+                      )}
+                      {project.source && (
+                        <Link
+                          href={project.source}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.4rem",
+                            padding: "0.4875rem 0.9375rem",
+                            borderRadius: "var(--radius-md)",
+                            fontSize: "0.875rem",
+                            fontWeight: 500,
+                            textDecoration: "none",
+                            border: "1px solid var(--border-soft)",
+                            color: "var(--gray-700)",
+                            background: "var(--bg-surface)",
+                            transition: "all 150ms ease",
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.background = "var(--gray-50)"; e.currentTarget.style.borderColor = "var(--gray-300)"; }}
+                          onMouseLeave={e => { e.currentTarget.style.background = "var(--bg-surface)"; e.currentTarget.style.borderColor = "var(--border-soft)"; }}
+                        >
+                          <SiGithub size={14} />
+                          Source code
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
 }

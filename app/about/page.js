@@ -1,141 +1,309 @@
 import Link from "next/link";
 import Image from "next/image";
-import { SiInstagram } from "react-icons/si";
-import { SiLinkedin } from "react-icons/si";
-import { SiSubstack } from "react-icons/si";
+import { SiInstagram, SiLinkedin, SiSubstack } from "react-icons/si";
 import ContactForm from "../components/ContactForm";
+import { ArrowRight } from "lucide-react";
 
 const socialLinks = [
-    {
-        name: 'Instagram',
-        url: 'https://instagram.com/4kewii',
-        icon: SiInstagram,
-        color: 'bg-gradient-to-br from-purple-500 to-pink-500'
-    },
-    {
-        name: 'LinkedIn',
-        url: 'https://linkedin.com/in/elsie-okon/',
-        icon: SiLinkedin,
-        color: 'bg-blue-600'
-    },
-    {
-        name: 'Substack',
-        url: 'https://overlady.substack.com',
-        icon: SiSubstack,
-        color: 'bg-orange-500'
-    },
+  { name: "Instagram", url: "https://instagram.com/4kewii", icon: SiInstagram },
+  { name: "LinkedIn", url: "https://linkedin.com/in/elsieokon/", icon: SiLinkedin },
+  { name: "Substack", url: "https://overlady.substack.com", icon: SiSubstack },
+];
+
+const interests = [
+  "Music (trumpet, piano, production)",
+  "Rugby",
+  "Long walks",
+  "Computer science",
+  "Chemistry",
+  "Travel",
 ];
 
 export default function AboutPage() {
-    return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-            {/* Hero Section with Photo */}
-            <div className="flex items-center justify-center">
-                <div className="rounded-2xl p-4 sm:p-8 mb-8 sm:mb-12">
-                    {/* Profile Photo */}
-                    <div className="flex-shrink-0">
-                        <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-[#C56462] shadow-xl bg-[#F5E6E6] mx-auto">
-                            <Image
-                                src="/photos/about.jpg"
-                                alt="Elsie"
-                                fill
-                                sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, 224px"
-                                className="object-cover"
-                                priority
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-
-            {/* Main Content */}
-            <div className="space-y-6 sm:space-y-8">
-                {/* About Me Section */}
-                <section className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 border border-[#E2B9B8]">
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-gray-900 border-b-2 border-[#C56462] pb-2">
-                        About Me
-                    </h2>
-                    <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-800 space-y-4">
-                        <p>
-                            Hello world! I&apos;m Elsie, a fellow Mancunian currently studying at{' '}
-                            <Link 
-                                href="https://www.pomona.edu"
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="text-[#803635] hover:text-[#6B2D2C] hover:underline font-semibold transition-colors"
-                            >
-                                Pomona College
-                            </Link>
-                            {' '}studying computer science with a minor in chemistry.
-                        </p>
-
-                        <p>
-                            My main hobbies include making music (right now it&apos;s really just trumpet, piano and production), playing rugby (badly), and walking long distances from my current location, wherever that may be at a given time. Beyond that, I&apos;m always down to try something new!
-                        </p>
-
-                        <p>
-                            Currently, I&apos;m working on a few personal{' '}
-                            <Link 
-                                href="/projects" 
-                                className="text-[#803635] hover:text-[#6B2D2C] hover:underline font-semibold transition-colors"
-                            >
-                                projects
-                            </Link>
-                            ; nothing crazy, just trying to gain some hands-on experience in the tech world.
-                        </p>
-                    </div>
-                </section>
-
-                {/* Connect Section */}
-                <section className="bg-gradient-to-r from-[#C56462] to-[#CE8988] rounded-xl shadow-lg p-4 sm:p-6 md:p-8 text-center text-white">
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
-                        Let&apos;s Connect!
-                    </h2>
-                    <p className="text-base sm:text-lg mb-4 sm:mb-6 opacity-90">
-                        Want to chat? Find me online or send me a message!
-                    </p>
-                    
-                    {/* Social Links */}
-                    <div className="flex gap-3 sm:gap-4 justify-center flex-wrap mb-6 sm:mb-8">
-                        {socialLinks.map((link) => {
-                            const Icon = link.icon
-                            return (
-                                <Link
-                                    key={link.name}
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`${link.color} text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity shadow-md flex items-center gap-2`}
-                                    title={link.name}
-                                >
-                                    <Icon size={20} />
-                                </Link>
-                            )
-                        })}
-                    </div>
-
-                    <div className="flex gap-3 sm:gap-4 justify-center flex-wrap">
-                        <Link 
-                            href="/blog"
-                            className="bg-white text-[#C56462] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-[#F5E6E6] transition-colors shadow-md text-sm sm:text-base"
-                        >
-                            Read My Blog
-                        </Link>
-                        <Link 
-                            href="/projects"
-                            className="bg-[#803635] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-[#6B2D2C] transition-colors shadow-md text-sm sm:text-base"
-                        >
-                            View My Projects
-                        </Link>
-                    </div>
-                </section>
-
-                {/* Contact Form */}
-                <section>
-                    <ContactForm />
-                </section>
-            </div>
+  return (
+    <div style={{ maxWidth: "56rem", marginInline: "auto", padding: "3rem 1.25rem 5rem" }}>
+      {/* Hero */}
+      <div
+        style={{
+          display: "flex",
+          gap: "2.5rem",
+          alignItems: "center",
+          marginBottom: "3rem",
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ flexShrink: 0 }}>
+          <div
+            style={{
+              position: "relative",
+              width: 160,
+              height: 160,
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "3px solid var(--brand-200)",
+              boxShadow: "0 8px 24px rgba(197,100,98,0.2)",
+            }}
+          >
+            <Image
+              src="/photos/aboutPic/about.jpg"
+              alt="Elsie"
+              fill
+              sizes="160px"
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          </div>
         </div>
-    )
+
+        <div style={{ flex: 1, minWidth: "220px" }}>
+          <p
+            style={{
+              fontSize: "0.8125rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              color: "var(--brand-500)",
+              marginBottom: "0.625rem",
+            }}
+          >
+            Hello, world!
+          </p>
+
+          <h1
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(1.875rem, 4vw, 2.5rem)",
+              fontWeight: 700,
+              color: "var(--gray-900)",
+              letterSpacing: "-0.025em",
+              marginBottom: "1rem",
+            }}
+          >
+            I&apos;m Elsie
+          </h1>
+
+          <p
+            style={{
+              fontSize: "1.0625rem",
+              color: "var(--gray-600)",
+              lineHeight: 1.65,
+              margin: 0,
+            }}
+          >
+            I was born to Nigerian parents in Bristol, England, moved to Manchester when I was 7, and spent the last few years in Southern California studying Computer Science and Chemistry at{" "}
+            <Link
+              href="https://www.pomona.edu"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "var(--brand-600)", fontWeight: 500 }}
+            >
+              Pomona College
+            </Link>
+            . Along the way, I&apos;ve worn a lot of different hats: researcher, teaching assistant, rugby player, mentor, musician, student leader. 
+            This blog is a place for the things I find interesting. Some of that is technical - software, systems, projects, and the occasional deep dive into a topic that catches my attention. But you&apos;ll also find reflections on books, travel, sport, learning, and whatever else happens to be occupying my mind at the time.
+            I&apos;ve always admired people who are curious about many things and willing to follow that curiosity wherever it leads. This space is my attempt to do the same: a collection of notes, ideas, projects, and stories gathered along the way.
+            If something here resonates with you, I&apos;m glad you found it.
+          </p>
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: "1.25rem",
+          marginBottom: "1.25rem",
+        }}
+      >
+        <section
+          style={{
+            background: "var(--bg-surface)",
+            border: "1px solid var(--border-subtle)",
+            borderRadius: "var(--radius-xl)",
+            padding: "1.75rem",
+            boxShadow: "var(--shadow-sm)",
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              color: "var(--gray-900)",
+              marginBottom: "1rem",
+            }}
+          >
+            About me
+          </h2>
+
+          <div
+            style={{
+              fontSize: "0.95rem",
+              color: "var(--gray-600)",
+              lineHeight: 1.7,
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.875rem",
+            }}
+          >
+            <p style={{ margin: 0 }}>
+              I make music — trumpet, piano, and production. I play rugby
+              (badly). I walk long distances from wherever I happen to be.
+              Beyond that, I&apos;m always down to try something new.
+            </p>
+
+            <p style={{ margin: 0 }}>
+              I&apos;m currently working on a few personal{" "}
+              <Link
+                href="/projects"
+                style={{ color: "var(--brand-600)", fontWeight: 500 }}
+              >
+                projects
+              </Link>{" "}
+              — nothing crazy, just gaining hands-on experience in the tech
+              world.
+            </p>
+          </div>
+        </section>
+
+        <section
+          style={{
+            background: "var(--bg-surface)",
+            border: "1px solid var(--border-subtle)",
+            borderRadius: "var(--radius-xl)",
+            padding: "1.75rem",
+            boxShadow: "var(--shadow-sm)",
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              color: "var(--gray-900)",
+              marginBottom: "1rem",
+            }}
+          >
+            Interests
+          </h2>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+            {interests.map((i) => (
+              <span key={i} className="tag">
+                {i}
+              </span>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <section
+        style={{
+          background:
+            "linear-gradient(135deg, var(--brand-500) 0%, var(--brand-700) 100%)",
+          borderRadius: "var(--radius-xl)",
+          padding: "2rem",
+          marginBottom: "1.25rem",
+          boxShadow: "var(--shadow-brand)",
+        }}
+      >
+        <h2
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "1.375rem",
+            fontWeight: 700,
+            color: "white",
+            marginBottom: "0.5rem",
+          }}
+        >
+          Let&apos;s connect
+        </h2>
+
+        <p
+          style={{
+            color: "rgba(255,255,255,0.75)",
+            fontSize: "0.9375rem",
+            marginBottom: "1.5rem",
+          }}
+        >
+          Find me on social media or send a message below.
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.625rem",
+            marginBottom: "1.5rem",
+          }}
+        >
+          {socialLinks.map(({ name, url, icon: Icon }) => (
+            <Link
+              key={name}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-button"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.5rem 1rem",
+                color: "white",
+                borderRadius: "var(--radius-md)",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                textDecoration: "none",
+                border: "1px solid rgba(255,255,255,0.25)",
+              }}
+            >
+              <Icon size={16} />
+              {name}
+            </Link>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.625rem" }}>
+          <Link
+            href="/blog"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.375rem",
+              padding: "0.5625rem 1.125rem",
+              background: "white",
+              color: "var(--brand-700)",
+              borderRadius: "var(--radius-md)",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            Read my blog <ArrowRight size={15} />
+          </Link>
+
+          <Link
+            href="/projects"
+            className="secondary-button"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.375rem",
+              padding: "0.5625rem 1.125rem",
+              color: "white",
+              borderRadius: "var(--radius-md)",
+              fontSize: "0.9rem",
+              fontWeight: 500,
+              textDecoration: "none",
+              border: "1px solid rgba(255,255,255,0.25)",
+            }}
+          >
+            View projects
+          </Link>
+        </div>
+      </section>
+
+      <ContactForm />
+    </div>
+  );
 }

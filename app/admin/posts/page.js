@@ -1,163 +1,169 @@
 'use client'
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import AdminLayout from "@/app/components/admin/AdminLayout.js"
+import AdminLayout from "@/app/components/admin/AdminLayout"
 import { Plus, Edit, Trash2, Eye } from 'lucide-react'
 import { format } from "date-fns"
 
 export default function AdminPosts() {
-    const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true)
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [deleting, setDeleting] = useState(null)
 
-    useEffect(() => {
-        fetchPosts()
-    }, [])
+  useEffect(() => {
+    fetch('/api/posts?published=false')
+      .then(r => r.ok ? r.json() : [])
+      .then(data => { setPosts(Array.isArray(data) ? data : []); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
 
-    const fetchPosts = async () => {
-        try {
-            const response = await fetch('/api/posts?published=false')
-            if (response.ok) {
-                const data = await response.json()
-                setPosts(data)
-            }
-        } catch (error) {
-            console.error('Failed to fetch posts:', error)
-        }
-        setLoading(false)
-    }
+  const handleDelete = async (id) => {
+    if (!confirm('Delete this post? This also removes its comments and cannot be undone.')) return
+    setDeleting(id)
+    try {
+      const r = await fetch(`/api/posts/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` },
+      })
+      if (r.ok) setPosts(prev => prev.filter(p => p._id !== id))
+    } catch { /* show nothing, keep post in list */ }
+    setDeleting(null)
+  }
 
-    const handleDelete = async (id) => {
-        if (confirm('Are you sure you want to delete this post?')) {
-            try {
-                const response = await fetch(`/api/posts/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-                    }
-                })
+  return (
+    <AdminLayout>
+      <div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem", flexWrap: "wrap", gap: "1rem" }}>
+          <div>
+            <h1 style={{ fontFamily: "var(--font-serif)", fontWeight: 700, fontSize: "1.625rem", color: "var(--gray-900)", letterSpacing: "-0.02em", margin: 0 }}>
+              Posts
+            </h1>
+            {!loading && (
+              <p style={{ color: "var(--gray-400)", fontSize: "0.875rem", margin: "0.25rem 0 0" }}>
+                {posts.length} post{posts.length !== 1 ? 's' : ''} total
+              </p>
+            )}
+          </div>
+          <Link
+            href="/admin/posts/create"
+            className="btn btn-primary btn-sm"
+            style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
+          >
+            <Plus size={16} />
+            New post
+          </Link>
+        </div>
 
-                if (response.ok) {
-                    setPosts(posts.filter(post => post._id !== id))
-                }
-            } catch (error) {
-                console.error('Failed to delete post:', error)
-                alert('Failed to delete post')
-            }
-        }
-    }
-
-    if (loading) {
-        return (
-            <AdminLayout>
-                <div className="text-center py-12">
-                    <p className="text-gray-900">Loading posts...</p>
+        <div className="admin-panel-card">
+          {loading ? (
+            <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+              {[1,2,3,4].map(i => (
+                <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+                  <div className="skeleton" style={{ flex: 1, height: "1rem" }} />
+                  <div className="skeleton" style={{ width: 60, height: "1.5rem", borderRadius: "var(--radius-full)" }} />
+                  <div className="skeleton" style={{ width: 40, height: "1rem" }} />
+                  <div className="skeleton" style={{ width: 80, height: "1rem" }} />
+                  <div className="skeleton" style={{ width: 72, height: "1rem" }} />
                 </div>
-            </AdminLayout>
-        )
-    }
-
-    return (
-        <AdminLayout>
-            <div>
-                <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Posts</h1>
-                    <Link 
-                        href={"/admin/posts/create"} 
-                        className="bg-[#C56462] text-white px-4 py-2 rounded-lg hover:bg-[#B55856] transition-colors flex items-center gap-2 shadow-md"
-                    >
-                        <Plus size={20}/>
-                        New Post
-                    </Link>
-                </div>
-
-                <div className="bg-white shadow-md rounded-lg overflow-hidden border border-[#E2B9B8]">
-                    {posts.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">
-                            No posts yet. Create your first post!
-                        </div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-[#E2B9B8]">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Title
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Status
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Views
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Likes
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Created
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {posts.map((post) => (
-                                        <tr key={post._id} className="hover:bg-[#F5E6E6] transition-colors">
-                                            <td className="px-6 py-4">
-                                                <div className="text-sm font-medium text-gray-900">{post.title}</div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                                    post.published 
-                                                        ? 'bg-green-100 text-green-800' 
-                                                        : 'bg-yellow-100 text-yellow-800'
-                                                }`}>
-                                                    {post.published ? 'Published' : 'Draft'}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {post.views}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {post.likes}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {format(new Date(post.createdAt), 'd MMM, yyyy')}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <div className="flex items-center space-x-3">
-                                                    <Link 
-                                                        href={`/blog/${post.slug}`} 
-                                                        className="text-[#1C8694] hover:text-[#22A1B2] hover:bg-[#E2F7F9] p-1 rounded transition-colors" 
-                                                        target="_blank"
-                                                        title="View post"
-                                                    >
-                                                        <Eye size={18} />
-                                                    </Link>
-                                                    <Link 
-                                                        href={`/admin/posts/edit/${post._id}`} 
-                                                        className="text-[#803635] hover:text-[#6B2D2C] hover:bg-[#F5E6E6] p-1 rounded transition-colors"
-                                                        title="Edit post"
-                                                    >
-                                                        <Edit size={18} />
-                                                    </Link>
-                                                    <button 
-                                                        onClick={() => handleDelete(post._id)} 
-                                                        className="text-red-600 hover:text-red-900 hover:bg-red-50 p-1 rounded transition-colors"
-                                                        title="Delete post"
-                                                    >
-                                                        <Trash2 size={18} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
+              ))}
             </div>
-        </AdminLayout>
-    )
+          ) : posts.length === 0 ? (
+            <div style={{ padding: "4rem 2rem", textAlign: "center" }}>
+              <p style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>✍️</p>
+              <p style={{ fontWeight: 600, color: "var(--gray-700)", marginBottom: "0.375rem" }}>No posts yet</p>
+              <p style={{ color: "var(--gray-400)", fontSize: "0.9rem", marginBottom: "1.5rem" }}>Create your first post to get started.</p>
+              <Link href="/admin/posts/create" className="btn btn-primary btn-sm">
+                <Plus size={15} /> Create post
+              </Link>
+            </div>
+          ) : (
+            <div style={{ overflowX: "auto" }}>
+              <table className="admin-table" style={{ minWidth: "600px" }}>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th style={{ width: 100 }}>Status</th>
+                    <th style={{ width: 70 }}>Views</th>
+                    <th style={{ width: 70 }}>Likes</th>
+                    <th style={{ width: 110 }}>Created</th>
+                    <th style={{ width: 100 }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {posts.map(post => (
+                    <tr key={post._id}>
+                      <td>
+                        <p style={{ fontWeight: 500, color: "var(--gray-900)", margin: 0, fontSize: "0.9375rem" }}>
+                          {post.title}
+                        </p>
+                      </td>
+                      <td>
+                        <span className={`badge ${post.published ? 'badge-success' : 'badge-warning'}`}>
+                          {post.published ? 'Published' : 'Draft'}
+                        </span>
+                      </td>
+                      <td style={{ color: "var(--gray-600)", fontSize: "0.9rem" }}>{post.views}</td>
+                      <td style={{ color: "var(--gray-600)", fontSize: "0.9rem" }}>{post.likes}</td>
+                      <td style={{ color: "var(--gray-400)", fontSize: "0.875rem" }}>
+                        {format(new Date(post.createdAt), 'd MMM yyyy')}
+                      </td>
+                      <td>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                          <Link
+                            href={`/blog/${post.slug}`}
+                            target="_blank"
+                            title="View post"
+                            style={{
+                              display: "inline-flex", alignItems: "center", justifyContent: "center",
+                              width: 30, height: 30, borderRadius: "var(--radius-md)",
+                              color: "var(--gray-400)", textDecoration: "none",
+                              transition: "all 150ms ease",
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background = "var(--info-50)"; e.currentTarget.style.color = "var(--info-700)"; }}
+                            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--gray-400)"; }}
+                          >
+                            <Eye size={15} />
+                          </Link>
+                          <Link
+                            href={`/admin/posts/edit/${post._id}`}
+                            title="Edit post"
+                            style={{
+                              display: "inline-flex", alignItems: "center", justifyContent: "center",
+                              width: 30, height: 30, borderRadius: "var(--radius-md)",
+                              color: "var(--gray-400)", textDecoration: "none",
+                              transition: "all 150ms ease",
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background = "var(--brand-50)"; e.currentTarget.style.color = "var(--brand-600)"; }}
+                            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--gray-400)"; }}
+                          >
+                            <Edit size={15} />
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(post._id)}
+                            disabled={deleting === post._id}
+                            title="Delete post"
+                            style={{
+                              display: "inline-flex", alignItems: "center", justifyContent: "center",
+                              width: 30, height: 30, borderRadius: "var(--radius-md)",
+                              color: "var(--gray-400)", background: "none", border: "none",
+                              cursor: "pointer", transition: "all 150ms ease",
+                              opacity: deleting === post._id ? 0.5 : 1,
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background = "var(--danger-50)"; e.currentTarget.style.color = "var(--danger-700)"; }}
+                            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--gray-400)"; }}
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </AdminLayout>
+  )
 }
