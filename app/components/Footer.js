@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { SiInstagram, SiLinkedIn, SiSubstack } from "react-icons/si";
+import { SiInstagram, SiSubstack } from "react-icons/si";
+import { BsLinkedin } from "react-icons/bs";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -114,7 +115,7 @@ export default function Footer() {
                   href: "https://instagram.com/4kewii",
                 },
                 {
-                  icon: SiLinkedIn,
+                  icon: BsLinkedin,
                   label: "LinkedIn",
                   href: "https://linkedin.com/in/elsieokon/",
                 },
