@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { SiInstagram, SiLinkedin, SiSubstack } from "react-icons/si";
+import { SiInstagram, SiLinkedIn, SiSubstack } from "react-icons/si";
 import ContactForm from "../components/ContactForm";
 import { ArrowRight } from "lucide-react";
 
 const socialLinks = [
   { name: "Instagram", url: "https://instagram.com/4kewii", icon: SiInstagram },
-  { name: "LinkedIn", url: "https://linkedin.com/in/elsieokon/", icon: SiLinkedin },
+  { name: "LinkedIn", url: "https://linkedin.com/in/elsieokon/", icon: SiLinkedIn },
   { name: "Substack", url: "https://overlady.substack.com", icon: SiSubstack },
 ];
 
