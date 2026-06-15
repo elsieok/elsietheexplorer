@@ -96,7 +96,7 @@ export default function Home() {
               marginInline: "auto",
             }}
           >
-            My personal corner of the internet.
+            My personal corner of the internet
           </p>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.875rem", justifyContent: "center" }}>
