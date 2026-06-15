@@ -57,7 +57,7 @@ export default function ProjectsPage() {
         <p style={{ color: "var(--gray-500)", fontSize: "1.0625rem", margin: 0 }}>
           Things I&apos;ve built. Also on{' '}
           <Link href="https://github.com/elsieok" target="_blank" rel="noopener noreferrer"
-            style={{ color: "var(--brand-600)", fontWeight: 500, display: "inline-flex", alignItems: "center", gap: "0.25rem", verticalAlign: "middle" }}>
+            style={{ color: "var(--brand-600)"}}>
             GitHub
           </Link>
           .
