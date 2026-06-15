@@ -35,7 +35,7 @@ export default function BlogPage() {
           Blog
         </h1>
         <p style={{ color: "var(--gray-500)", fontSize: "1.0625rem", margin: 0 }}>
-          Thoughts, tutorials, and insights about all things tech
+          Oh, dont mind me. Just yapping away...
         </p>
       </div>
 
