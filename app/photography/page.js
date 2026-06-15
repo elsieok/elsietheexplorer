@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { X, MapPin, Calendar } from 'lucide-react'
+import { X, MapPin, Calendar, Camera } from 'lucide-react'
 
 export default function PhotographyPage() {
   const [selected, setSelected] = useState(null)
@@ -93,7 +93,7 @@ export default function PhotographyPage() {
               fontSize: '2.25rem',
             }}
           >
-            📷
+            <Camera/>
           </div>
           <h2
             style={{
