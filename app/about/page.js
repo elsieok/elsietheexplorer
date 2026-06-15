@@ -157,16 +157,7 @@ export default function AboutPage() {
             </p>
           </div>
         </section>
-
-        <section
-          style={{
-            background: "var(--bg-surface)",
-            border: "1px solid var(--border-subtle)",
-            borderRadius: "var(--radius-xl)",
-            padding: "1.75rem",
-            boxShadow: "var(--shadow-sm)",
-          }}
-        >
+      </div>
 
       <section
         style={{
