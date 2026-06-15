@@ -8,7 +8,7 @@ const features = [
   {
     icon: BookOpen,
     title: "Blog",
-    description: "Thoughts on travel, tech, and everything in between.",
+    description: "Somewhat cohesive ramblings.",
     href: "/blog",
     color: "var(--brand-500)",
     bg: "var(--brand-50)",
@@ -16,7 +16,7 @@ const features = [
   {
     icon: Code2,
     title: "Projects",
-    description: "Personal projects I've built while learning the craft.",
+    description: "Live. Love. Code.",
     href: "/projects",
     color: "#0ea5e9",
     bg: "#f0f9ff",
@@ -24,7 +24,7 @@ const features = [
   {
     icon: Camera,
     title: "Photography",
-    description: "Moments captured from adventures around the world.",
+    description: "Moments captured from my explorations.",
     href: "/photography",
     color: "#8b5cf6",
     bg: "#f5f3ff",
