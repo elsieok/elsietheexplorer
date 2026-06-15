@@ -16,7 +16,7 @@ const features = [
   {
     icon: Code2,
     title: "Projects",
-    description: "Live. Love. Code.",
+    description: "Live. Love. Code. Click here to see how I live by this",
     href: "/projects",
     color: "#0ea5e9",
     bg: "#f0f9ff",
@@ -24,7 +24,7 @@ const features = [
   {
     icon: Camera,
     title: "Photography",
-    description: "Moments captured from my explorations.",
+    description: "Digital archive of my explorations.",
     href: "/photography",
     color: "#8b5cf6",
     bg: "#f5f3ff",
