@@ -42,7 +42,7 @@ export default function Footer() {
               Explorer
             </p>
             <p style={{ fontSize: "0.875rem", lineHeight: 1.6, margin: 0 }}>
-              Everything and everything in between.
+              Exploring everything and everything in between.
             </p>
           </div>
 
