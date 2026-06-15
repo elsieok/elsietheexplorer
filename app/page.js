@@ -16,7 +16,7 @@ const features = [
   {
     icon: Code2,
     title: "Projects",
-    description: "Live. Love. Code. Click here to see how I live by this",
+    description: "Live. Love. Code. Click here to see it in practice.",
     href: "/projects",
     color: "#0ea5e9",
     bg: "#f0f9ff",
