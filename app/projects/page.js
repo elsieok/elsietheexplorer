@@ -58,7 +58,7 @@ export default function ProjectsPage() {
           Things I&apos;ve built. Also on{' '}
           <Link href="https://github.com/elsieok" target="_blank" rel="noopener noreferrer"
             style={{ color: "var(--brand-600)", fontWeight: 500, display: "inline-flex", alignItems: "center", gap: "0.25rem", verticalAlign: "middle" }}>
-            GitHub />
+            GitHub
           </Link>
           .
         </p>
