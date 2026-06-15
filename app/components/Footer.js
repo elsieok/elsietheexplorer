@@ -42,7 +42,7 @@ export default function Footer() {
               Explorer
             </p>
             <p style={{ fontSize: "0.875rem", lineHeight: 1.6, margin: 0 }}>
-              Travel, tech, talk and whatever else catches my eye.
+              Everything and everything in between.
             </p>
           </div>
 
