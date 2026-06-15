@@ -11,15 +11,6 @@ const socialLinks = [
   { name: "Substack", url: "https://overlady.substack.com", icon: SiSubstack },
 ];
 
-const interests = [
-  "Music (trumpet, piano, production)",
-  "Rugby",
-  "Long walks",
-  "Computer science",
-  "Chemistry",
-  "Travel",
-];
-
 export default function AboutPage() {
   return (
     <div style={{ maxWidth: "56rem", marginInline: "auto", padding: "3rem 1.25rem 5rem" }}>
@@ -80,7 +71,7 @@ export default function AboutPage() {
               marginBottom: "1rem",
             }}
           >
-            I&apos;m Elsie
+            My name is Elsie
           </h1>
 
           <p
@@ -134,7 +125,7 @@ export default function AboutPage() {
               marginBottom: "1rem",
             }}
           >
-            About me
+            Current hobbies
           </h2>
 
           <div
@@ -176,27 +167,6 @@ export default function AboutPage() {
             boxShadow: "var(--shadow-sm)",
           }}
         >
-          <h2
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "1.25rem",
-              fontWeight: 600,
-              color: "var(--gray-900)",
-              marginBottom: "1rem",
-            }}
-          >
-            Interests
-          </h2>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-            {interests.map((i) => (
-              <span key={i} className="tag">
-                {i}
-              </span>
-            ))}
-          </div>
-        </section>
-      </div>
 
       <section
         style={{
