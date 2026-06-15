@@ -93,7 +93,7 @@ export default function PhotographyPage() {
               fontSize: '2.25rem',
             }}
           >
-            <Camera color: "#8b5cf6" />
+            <Camera color="#8b5cf6" />
           </div>
           <h2
             style={{
