@@ -70,23 +70,6 @@ export default function Home() {
         />
 
         <div style={{ position: "relative", maxWidth: "52rem", marginInline: "auto" }}>
-          <p
-            style={{
-              display: "inline-block",
-              fontSize: "0.8125rem",
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              color: "rgba(255,255,255,0.7)",
-              marginBottom: "1.25rem",
-              padding: "0.3rem 0.875rem",
-              border: "1px solid rgba(255,255,255,0.2)",
-              borderRadius: "var(--radius-full)",
-              background: "rgba(255,255,255,0.08)",
-            }}
-          >
-            +234 from +44 in +1
-          </p>
 
           <h1
             style={{
