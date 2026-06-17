@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { serialize } from "next-mdx-remote/serialize";
 import ContentClient from "@/app/components/ContentClient";
 import LikeButton from "@/app/components/LikeButton";
+import SharePost from "@/app/components/SharePost";
 import CommentSection from "@/app/components/CommentSection";
 import Link from "next/link";
 import { ArrowLeft, Clock, Eye } from "lucide-react";
@@ -181,17 +182,27 @@ export default function BlogPost({ params }) {
               </span>
             </div>
           </div>
-
-          {/* Like button */}
-          <div style={{ paddingTop: "1rem" }}>
-            <LikeButton postId={post._id} initialLikes={post.likes} />
-          </div>
         </header>
 
         {/* Content */}
         {mdxSource && <ContentClient source={mdxSource} />}
       </article>
 
+      {/* Like and Share Buttons */}
+      <section>
+        <div 
+          style={{
+            maxWidth: "44rem",
+            marginInline: "auto",
+            padding: "0 1.25rem 4rem",
+            alignItems: "center",
+            display: "flex",
+            gap: "1.5rem",
+          }}>
+          <LikeButton postId={post._id} initialLikes={post.likes} />
+          <SharePost postSlug={slug} />
+        </div>
+      </section>
       {/* Comments */}
       <section id="comments">
         <div style={{ maxWidth: "44rem", marginInline: "auto", padding: "0 1.25rem 4rem" }}>

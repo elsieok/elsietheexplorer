@@ -55,6 +55,7 @@ export default function LikeButton({ postId, initialLikes = 0 }) {
       style={{
         display: "inline-flex",
         alignItems: "center",
+        height: "45px",
         gap: "0.5rem",
         padding: "0.5rem 1rem",
         borderRadius: "var(--radius-full)",

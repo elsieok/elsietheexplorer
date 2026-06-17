@@ -575,3 +575,62 @@ table th, table td {
   flex: 1;
   border-top: 1px solid var(--border-subtle);
 }
+.custom-toast {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+
+  width: fit-content !important;
+  max-width: 420px;
+
+  height: auto !important;
+  min-height: unset !important;
+
+  padding: 0.35rem 0.9rem;
+
+  border-radius: 9999px;
+  border: 1.5px solid var(--gray-200);
+
+  background: var(--bg-surface);
+  color: var(--gray-500);
+
+  font-size: 0.9375rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+
+  box-shadow: none;
+
+  white-space: nowrap;
+}
+
+/* make body not interfere with layout */
+.custom-toast .Toastify__toast-body {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: inline-flex;
+  align-items: center;
+
+  flex: 0 1 auto !important;
+  width: auto !important;
+}
+
+/* move close button into flex flow (right of text) */
+.custom-toast .Toastify__close-button,
+.custom-toast .Toastify__close-button--default {
+  position: static !important;
+  transform: none !important;
+
+  margin-left: 0.4rem;
+
+  display: inline-flex;
+  align-items: center;
+
+  opacity: 0.6;
+  color: inherit;
+  font-size: 0.9rem;
+  line-height: 1;
+
+  cursor: pointer;
+}

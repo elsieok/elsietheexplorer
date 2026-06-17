@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { BiError } from "react-icons/bi";
 
 export default function GlobalError({ error, reset }) {
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function GlobalError({ error, reset }) {
           fontSize: '1.75rem',
         }}
       >
-        ⚠️
+        <BiError />
       </div>
       <h1
         style={{
