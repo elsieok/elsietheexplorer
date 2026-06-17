@@ -30,27 +30,28 @@ export default function SharePost ({ postTitle }) {
 
     const shareOnPlatform = (platform) => {
         const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent(postTitle);
 
         let shareUrl = '';
 
         switch (platform) {
             case 'facebook':
-                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                shareUrl = `https://www.facebook.com/dialog/share?href==${url}`;
                 break;
             case 'twitter':
-                shareUrl = `https://twitter.com/intent/tweet?url=${url}`;
+                shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
                 break;
             case 'linkedin':
                 shareUrl = `https://www.linkedin.com/shareArticle?url=${url}`;
                 break;
             case 'email':
-                shareUrl = `mailto:?body=${url}`;
+                shareUrl = `mailto:?subject=${text}&body=${url}`;
                 break;
             case 'sms':
                 shareUrl = `sms:?&body=${url}`;
                 break;
             case 'reddit':
-                shareUrl = `https://reddit.com/submit?url=${url}`;
+                shareUrl = `https://reddit.com/submit?url=${url}&title=${text}`;
                 break;
             default:
                 break;
