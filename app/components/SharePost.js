@@ -1,6 +1,7 @@
 'use client'
 import { IoMdLink } from "react-icons/io";
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaEnvelope, FaRedditAlien } from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn, FaEnvelope, FaRedditAlien } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { IoIosText } from "react-icons/io";
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -104,7 +105,7 @@ export default function SharePost ({ postSlug }) {
                     style={{cursor: "pointer"}}
                     className="flex items-center py-1 text-sm"
                 >
-                    <FaTwitter size={16} className="mr-2 text-blue-400" />
+                    <FaXTwitter size={16} className="mr-2" color="black" />
                 </button>
                 <button
                     onClick={() => shareOnPlatform('linkedin')}
