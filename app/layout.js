@@ -7,7 +7,7 @@ export const metadata = {
     default: 'ElsieThe Explorer',
     template: '%s | ElsieThe Explorer',
   },
-  description: 'A personal blog and portfolio — travel, tech, talk and more by Elsie.',
+  description: 'Personal blog',
   other: {
     "google-site-verification": "FRaBDzG4NceDi8XBmhf6f0SSA60YFwaZHtB-IL38G2Y"
   }
