@@ -36,7 +36,7 @@ export default function SharePost ({ postTitle }) {
 
         switch (platform) {
             case 'facebook':
-                shareUrl = `https://www.facebook.com/dialog/share?href==${url}`;
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
                 break;
             case 'twitter':
                 shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
