@@ -39,19 +39,19 @@ export default function SharePost ({ postTitle }) {
                 shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
                 break;
             case 'twitter':
-                shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+                shareUrl = `https://twitter.com/intent/tweet?url=${url}`;
                 break;
             case 'linkedin':
                 shareUrl = `https://www.linkedin.com/shareArticle?url=${url}`;
                 break;
             case 'email':
-                shareUrl = `mailto:?body=${text} - ${url}`;
+                shareUrl = `mailto:?body=${url}`;
                 break;
             case 'sms':
                 shareUrl = `sms:?&body=${url}`;
                 break;
             case 'reddit':
-                shareUrl = `https://reddit.com/submit?url=${url}&title=${text}`;
+                shareUrl = `https://reddit.com/submit?url=${url}`;
                 break;
             default:
                 break;
