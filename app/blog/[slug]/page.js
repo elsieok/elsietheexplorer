@@ -200,7 +200,7 @@ export default function BlogPost({ params }) {
             gap: "1.5rem",
           }}>
           <LikeButton postId={post._id} initialLikes={post.likes} />
-          <SharePost postSlug={slug} />
+          <SharePost postTitle={post.title} />
         </div>
       </section>
       {/* Comments */}

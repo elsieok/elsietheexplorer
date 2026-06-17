@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const COPY_TOAST_ID = "copy-link-toast";
 
-export default function SharePost ({ postSlug }) {
+export default function SharePost ({ postTitle }) {
 
     const CopyToClipboard = async () => {
         const url = window.location.href;
@@ -30,7 +30,7 @@ export default function SharePost ({ postSlug }) {
 
     const shareOnPlatform = (platform) => {
         const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent(postSlug);
+        const text = encodeURIComponent(postTitle);
 
         let shareUrl = '';
 
@@ -45,10 +45,10 @@ export default function SharePost ({ postSlug }) {
                 shareUrl = `https://www.linkedin.com/shareArticle?url=${url}`;
                 break;
             case 'email':
-                shareUrl = `mailto:?subject=${text}&body=${text} - ${url}`;
+                shareUrl = `mailto:?body=${text} - ${url}`;
                 break;
             case 'sms':
-                shareUrl = `sms:?&body=${text} - ${url}`;
+                shareUrl = `sms:?&body=${url}`;
                 break;
             case 'reddit':
                 shareUrl = `https://reddit.com/submit?url=${url}&title=${text}`;
