@@ -30,7 +30,6 @@ export default function SharePost ({ postTitle }) {
 
     const shareOnPlatform = (platform) => {
         const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent(postTitle);
 
         let shareUrl = '';
 
