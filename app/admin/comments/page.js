@@ -1,7 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/admin/AdminLayout'
-import { CheckCircle, Trash2 } from 'lucide-react'
+import { CheckCircle, Trash2, MessageSquare } from 'lucide-react'
+
 import { format } from 'date-fns'
 
 const FILTERS = ['pending', 'approved', 'all']
@@ -112,7 +113,21 @@ export default function AdminComments() {
             </div>
           ) : comments.length === 0 ? (
             <div style={{ padding: "4rem 2rem", textAlign: "center", color: "var(--gray-400)" }}>
-              <p style={{ fontSize: "1.75rem", marginBottom: "0.625rem" }}>💬</p>
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: '50%',
+                  background: 'var(--brand-50)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginInline: 'auto',
+                  marginBottom: '1rem',
+                }}
+              >
+                <MessageSquare size={22} style={{ color: 'var(--brand-300)' }} strokeWidth={1.5} />
+              </div>
               <p style={{ fontWeight: 500, margin: 0, color: "var(--gray-600)" }}>
                 No {filter !== 'all' ? filter : ''} comments found.
               </p>

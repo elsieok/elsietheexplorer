@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import AdminLayout from "@/app/components/admin/AdminLayout"
-import { Plus, Edit, Trash2, Eye } from 'lucide-react'
+import { FileText, Plus, Edit, Trash2, Eye } from 'lucide-react'
 import { format } from "date-fns"
 
 export default function AdminPosts() {
@@ -69,7 +69,16 @@ export default function AdminPosts() {
             </div>
           ) : posts.length === 0 ? (
             <div style={{ padding: "4rem 2rem", textAlign: "center" }}>
-              <p style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>✍️</p>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: "0.625rem",
+                }}
+              >
+                <FileText size={28} />
+              </div>
+
               <p style={{ fontWeight: 600, color: "var(--gray-700)", marginBottom: "0.375rem" }}>No posts yet</p>
               <p style={{ color: "var(--gray-400)", fontSize: "0.9rem", marginBottom: "1.5rem" }}>Create your first post to get started.</p>
               <Link href="/admin/posts/create" className="btn btn-primary btn-sm">

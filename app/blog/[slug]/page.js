@@ -9,6 +9,7 @@ import SharePost from "@/app/components/SharePost";
 import CommentSection from "@/app/components/CommentSection";
 import Link from "next/link";
 import { ArrowLeft, Clock, Eye } from "lucide-react";
+import { FaQ, FaQuestion } from "react-icons/fa6";
 
 function estimateReadTime(content) {
   if (!content) return 1;
@@ -67,7 +68,21 @@ export default function BlogPost({ params }) {
   if (!post) {
     return (
       <div style={{ maxWidth: "44rem", marginInline: "auto", padding: "4rem 1.25rem", textAlign: "center" }}>
-        <p style={{ fontSize: "4rem", marginBottom: "1rem" }}>📄</p>
+        <div
+          style={{
+            width: 52,
+            height: 52,
+            borderRadius: '50%',
+            background: 'var(--brand-50)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginInline: 'auto',
+            marginBottom: '1rem',
+          }}
+        >
+          <FaQuestion size={22} style={{ color: 'var(--brand-300)' }} strokeWidth={1.5} />
+        </div>
         <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "1.75rem", color: "var(--gray-900)", marginBottom: "0.75rem" }}>
           Post not found
         </h1>

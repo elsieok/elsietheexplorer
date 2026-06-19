@@ -39,7 +39,7 @@ export default function AdminLogin() {
     <div
       style={{
         minHeight: "100vh",
-        background: "var(--gray-900)",
+        background: "var(--bg-page)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -61,7 +61,7 @@ export default function AdminLogin() {
               justifyContent: "center",
               marginInline: "auto",
               marginBottom: "1.25rem",
-              boxShadow: "0 8px 24px rgba(197,100,98,0.35)",
+              boxShadow: "var(--shadow-brand)",
             }}
           >
             <Lock size={22} color="white" strokeWidth={2} />
@@ -71,33 +71,27 @@ export default function AdminLogin() {
               fontFamily: "var(--font-serif)",
               fontWeight: 700,
               fontSize: "1.625rem",
-              color: "white",
+              color: "var(--gray-900)",
               letterSpacing: "-0.025em",
               marginBottom: "0.375rem",
             }}
           >
             Admin login
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.9rem", margin: 0 }}>
+          <p style={{ color: "var(--gray-500)", fontSize: "0.9rem", margin: 0 }}>
             Sign in to access the dashboard
           </p>
         </div>
 
         {/* Card */}
         <div
+          className="card"
           style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "var(--radius-xl)",
             padding: "2rem",
-            backdropFilter: "blur(8px)",
           }}
         >
           {error && (
-            <div
-              className="alert alert-danger"
-              style={{ marginBottom: "1.25rem", background: "rgba(239,68,68,0.1)", borderColor: "rgba(239,68,68,0.25)", color: "#fca5a5" }}
-            >
+            <div className="alert alert-danger" style={{ marginBottom: "1.25rem" }}>
               {error}
             </div>
           )}
@@ -106,10 +100,7 @@ export default function AdminLogin() {
 
             {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                style={{ display: "block", fontSize: "0.875rem", fontWeight: 500, color: "rgba(255,255,255,0.6)", marginBottom: "0.375rem" }}
-              >
+              <label htmlFor="email" className="form-label">
                 Email
               </label>
               <div style={{ position: "relative" }}>
@@ -120,7 +111,7 @@ export default function AdminLogin() {
                     left: "0.875rem",
                     top: "50%",
                     transform: "translateY(-50%)",
-                    color: "rgba(255,255,255,0.35)",
+                    color: "var(--gray-400)",
                     pointerEvents: "none",
                   }}
                 />
@@ -131,31 +122,15 @@ export default function AdminLogin() {
                   value={formData.email}
                   onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
                   placeholder="admin@example.com"
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    padding: "0.625rem 0.875rem 0.625rem 2.5rem",
-                    background: "rgba(255,255,255,0.07)",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    borderRadius: "var(--radius-md)",
-                    color: "white",
-                    fontSize: "0.9375rem",
-                    fontFamily: "var(--font-sans)",
-                    outline: "none",
-                    transition: "border-color 150ms ease, box-shadow 150ms ease",
-                  }}
-                  onFocus={e => { e.target.style.borderColor = "var(--brand-400)"; e.target.style.boxShadow = "0 0 0 3px rgba(197,100,98,0.2)"; }}
-                  onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.12)"; e.target.style.boxShadow = "none"; }}
+                  className="form-input"
+                  style={{ paddingLeft: "2.5rem" }}
                 />
               </div>
             </div>
 
             {/* Password */}
             <div>
-              <label
-                htmlFor="password"
-                style={{ display: "block", fontSize: "0.875rem", fontWeight: 500, color: "rgba(255,255,255,0.6)", marginBottom: "0.375rem" }}
-              >
+              <label htmlFor="password" className="form-label">
                 Password
               </label>
               <div style={{ position: "relative" }}>
@@ -166,7 +141,7 @@ export default function AdminLogin() {
                     left: "0.875rem",
                     top: "50%",
                     transform: "translateY(-50%)",
-                    color: "rgba(255,255,255,0.35)",
+                    color: "var(--gray-400)",
                     pointerEvents: "none",
                   }}
                 />
@@ -177,21 +152,8 @@ export default function AdminLogin() {
                   value={formData.password}
                   onChange={e => setFormData(p => ({ ...p, password: e.target.value }))}
                   placeholder="••••••••"
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    padding: "0.625rem 2.5rem 0.625rem 2.5rem",
-                    background: "rgba(255,255,255,0.07)",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    borderRadius: "var(--radius-md)",
-                    color: "white",
-                    fontSize: "0.9375rem",
-                    fontFamily: "var(--font-sans)",
-                    outline: "none",
-                    transition: "border-color 150ms ease, box-shadow 150ms ease",
-                  }}
-                  onFocus={e => { e.target.style.borderColor = "var(--brand-400)"; e.target.style.boxShadow = "0 0 0 3px rgba(197,100,98,0.2)"; }}
-                  onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.12)"; e.target.style.boxShadow = "none"; }}
+                  className="form-input"
+                  style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
                 />
                 <button
                   type="button"
@@ -203,7 +165,7 @@ export default function AdminLogin() {
                     transform: "translateY(-50%)",
                     background: "none",
                     border: "none",
-                    color: "rgba(255,255,255,0.35)",
+                    color: "var(--gray-400)",
                     cursor: "pointer",
                     padding: 0,
                     display: "flex",
@@ -218,27 +180,12 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              style={{
-                width: "100%",
-                padding: "0.6875rem",
-                background: loading ? "var(--brand-400)" : "var(--brand-500)",
-                color: "white",
-                border: "none",
-                borderRadius: "var(--radius-md)",
-                fontSize: "0.9375rem",
-                fontWeight: 600,
-                fontFamily: "var(--font-sans)",
-                cursor: loading ? "not-allowed" : "pointer",
-                transition: "background 150ms ease",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.5rem",
-              }}
+              className="btn btn-primary"
+              style={{ width: "100%" }}
             >
               {loading ? (
                 <>
-                  <span style={{ width: 16, height: 16, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "white", borderRadius: "50%", animation: "spin 0.7s linear infinite", display: "inline-block" }} />
+                  <span style={{ width: 16, height: 16, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "white", borderRadius: "50%", animation: "spin 0.7s linear infinite", display: "inline-block" }} />
                   Signing in…
                 </>
               ) : "Sign in"}

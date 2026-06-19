@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import BlogCard from "../components/BlogCard";
 import { Filter, X } from "lucide-react";
+import { FaFilterCircleXmark } from "react-icons/fa6";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState([]);
@@ -206,7 +207,21 @@ export default function BlogPage() {
                 borderRadius: "var(--radius-xl)",
               }}
             >
-              <p style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>📭</p>
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: '50%',
+                  background: 'var(--brand-50)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginInline: 'auto',
+                  marginBottom: '1rem',
+                }}
+              >
+                <FaFilterCircleXmark size={22} style={{ color: 'var(--brand-300)' }} strokeWidth={1.5} />
+              </div>
               <p style={{ fontWeight: 600, color: "var(--gray-800)", marginBottom: "0.375rem" }}>No posts found</p>
               <p style={{ color: "var(--gray-500)", fontSize: "0.9rem", margin: 0 }}>Try a different tag filter.</p>
             </div>
