@@ -2,15 +2,14 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
-import { BarChart3, FileText, MessageSquare, Settings, LogOut, Menu, X, Mail, ExternalLink, LayoutDashboard } from "lucide-react"
+import { BarChart3, FileText, MessageSquare, Settings, LogOut, Menu, X, Mail, ExternalLink, LayoutDashboard, Camera } from "lucide-react"
 
-// Persists across client-side navigations within the same session
-// (resets on full page reload or logout), so we don't re-verify on every page.
 let hasVerifiedSession = false
 
 const navItems = [
   { name: 'Dashboard',        href: '/admin/dashboard',  icon: LayoutDashboard },
   { name: 'Posts',            href: '/admin/posts',      icon: FileText },
+  { name: 'Photos',            href: '/admin/photos',    icon: Camera },
   { name: 'Comments',         href: '/admin/comments',   icon: MessageSquare },
   { name: 'Analytics',        href: '/admin/analytics',  icon: BarChart3 },
   { name: 'Messages',         href: '/admin/contacts',   icon: Mail },
@@ -25,9 +24,6 @@ export default function AdminLayout({ children }) {
 
   useEffect(() => {
     const verify = async () => {
-      const token = localStorage.getItem('adminToken')
-      if (!token) { router.push('/admin/login'); return }
-
       if (hasVerifiedSession) {
         setAuthenticated(true)
         setLoading(false)
@@ -35,15 +31,13 @@ export default function AdminLayout({ children }) {
       }
 
       try {
-        const res = await fetch('/api/admin/verify', {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}` },
-        })
-        if (!res.ok) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
+        // The adminToken cookie is httpOnly, so it rides along automatically —
+        // there's nothing for the client to read or attach manually.
+        const res = await fetch('/api/admin/verify', { method: 'POST' })
+        if (!res.ok) { router.push('/admin/login'); return }
         hasVerifiedSession = true
         setAuthenticated(true)
       } catch {
-        localStorage.removeItem('adminToken')
         router.push('/admin/login')
       } finally {
         setLoading(false)
@@ -54,10 +48,13 @@ export default function AdminLayout({ children }) {
 
   useEffect(() => { setSidebarOpen(false) }, [pathname])
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     hasVerifiedSession = false
-    localStorage.removeItem('adminToken')
-    router.push('/admin/login')
+    try {
+      await fetch('/api/admin/auth/logout', { method: 'POST' })
+    } finally {
+      router.push('/admin/login')
+    }
   }
 
   if (loading) {

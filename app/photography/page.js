@@ -1,18 +1,39 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { X, MapPin, Calendar, Camera } from 'lucide-react'
+import { X, Calendar, Camera } from 'lucide-react'
 
 export default function PhotographyPage() {
+  const [photos, setPhotos] = useState([])
+  const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState(null)
   const [sizes, setSizes] = useState({})
   const [ready, setReady] = useState(false)
   const [containerWidth, setContainerWidth] = useState(1200)
 
-  const photos = [
-    // Add photos here as objects:
-    // { id: '1', src: '/photos/aboutPic/about.jpg', title: 'Title', location: 'City, Country', date: 'Month Year' }
-  ]
+  useEffect(() => {
+    async function loadPhotos() {
+      try {
+        const res = await fetch('/api/photos?type=gallery')
+        if (!res.ok) throw new Error('Failed to load photos')
+        const data = await res.json()
+        setPhotos(data.map(p => ({
+          id: p._id,
+          src: p.url,
+          title: p.caption,
+          date: p.takenOn
+            ? new Date(p.takenOn).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })
+            : null,
+          camera: p.camera,
+        })))
+      } catch (err) {
+        console.error('Failed to load photos:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadPhotos()
+  }, [])
 
   useEffect(() => {
     const update = () => {
@@ -32,7 +53,6 @@ export default function PhotographyPage() {
     setSizes(prev => ({ ...prev, [id]: { width: img.naturalWidth, height: img.naturalHeight } }))
   }
 
-  // Simple masonry-ish layout without external dep
   const columns = containerWidth >= 900 ? 3 : containerWidth >= 600 ? 2 : 1
   const colWidth = (containerWidth - (columns - 1) * 8) / columns
 
@@ -68,15 +88,12 @@ export default function PhotographyPage() {
       </div>
 
       {/* Empty state */}
-      {photos.length === 0 && (
+      {!loading && photos.length === 0 && (
         <div
+          className="card"
           style={{
             padding: '5rem 2rem',
             textAlign: 'center',
-            background: 'var(--bg-surface)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-xl)',
-            boxShadow: 'var(--shadow-sm)',
           }}
         >
           <div
@@ -113,7 +130,7 @@ export default function PhotographyPage() {
         </div>
       )}
 
-      {/* Hidden probes */}
+      {/* Hidden probes — load each image once to measure its natural size for the masonry layout */}
       {photos.length > 0 && !ready && (
         <div style={{ visibility: 'hidden', position: 'absolute' }}>
           {photos.map(photo => (
@@ -184,9 +201,9 @@ export default function PhotographyPage() {
                     >
                       <div>
                         <p style={{ fontWeight: 600, color: 'white', fontSize: '0.9375rem', margin: '0 0 0.2rem' }}>{photo.title}</p>
-                        {photo.location && (
+                        {photo.date && (
                           <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.8125rem', margin: 0, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                            <MapPin size={12} /> {photo.location}
+                            <Calendar size={12} /> {photo.date}
                           </p>
                         )}
                       </div>
@@ -267,14 +284,14 @@ export default function PhotographyPage() {
                 {selected.title}
               </p>
               <div style={{ display: 'flex', gap: '1rem', color: 'rgba(255,255,255,0.65)', fontSize: '0.875rem' }}>
-                {selected.location && (
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                    <MapPin size={13} /> {selected.location}
-                  </span>
-                )}
                 {selected.date && (
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                     <Calendar size={13} /> {selected.date}
+                  </span>
+                )}
+                {selected.camera && (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                    <Camera size={13} /> {selected.camera}
                   </span>
                 )}
               </div>

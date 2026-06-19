@@ -27,5 +27,6 @@ export const components = {
         {children}
       </Link>
     )
-  }
+  },
+  Photo,
 }

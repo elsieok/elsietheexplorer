@@ -5,8 +5,12 @@ import { cookies } from "next/headers";
 export async function POST(request) {
     try {
         const token = (await cookies()).get('adminToken')?.value
-        const isAdmin = await verifyAdmin(token)
 
+        if (!token) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        const isAdmin = await verifyAdmin(token)
         if (!isAdmin) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }

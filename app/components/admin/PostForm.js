@@ -1,7 +1,8 @@
 'use client'
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { Save, X } from "lucide-react"
+import { Save, X, Image as ImageIcon } from "lucide-react"
+import PhotoPicker from "./PhotoPicker"
 
 export default function PostForm({ post = null, isEdit = false }) {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ export default function PostForm({ post = null, isEdit = false }) {
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [showPicker, setShowPicker] = useState(false)
+  const contentRef = useRef(null)
   const router = useRouter()
 
   const handleSubmit = async (e) => {
@@ -33,10 +36,7 @@ export default function PostForm({ post = null, isEdit = false }) {
       const method = isEdit ? 'PUT' : 'POST'
       const r = await fetch(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
 
@@ -55,6 +55,31 @@ export default function PostForm({ post = null, isEdit = false }) {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+  }
+
+  function insertAtCursor(text) {
+    const el = contentRef.current
+    if (!el) {
+      setFormData(prev => ({ ...prev, content: prev.content + text }))
+      return
+    }
+    const start = el.selectionStart
+    const end = el.selectionEnd
+    setFormData(prev => ({
+      ...prev,
+      content: prev.content.slice(0, start) + text + prev.content.slice(end),
+    }))
+    requestAnimationFrame(() => {
+      el.focus()
+      const cursor = start + text.length
+      el.selectionStart = el.selectionEnd = cursor
+    })
+  }
+
+  function handlePhotoSelect(photo) {
+    const captionAttr = photo.caption ? ` caption="${photo.caption.replace(/"/g, '&quot;')}"` : ''
+    insertAtCursor(`\n<Photo src="${photo.url}"${captionAttr} />\n`)
+    setShowPicker(false)
   }
 
   const field = (label, name, required = false, hint = '') => (
@@ -157,10 +182,21 @@ export default function PostForm({ post = null, isEdit = false }) {
 
         {/* Content */}
         <div>
-          {field("Content", "content", true, "(Markdown / MDX)")}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            {field("Content", "content", true, "(Markdown / MDX)")}
+            <button
+              type="button"
+              onClick={() => setShowPicker(true)}
+              className="btn btn-ghost btn-sm"
+              style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", marginBottom: "0.5rem" }}
+            >
+              <ImageIcon size={14} /> Insert photo
+            </button>
+          </div>
           <textarea
             id="pf-content"
             name="content"
+            ref={contentRef}
             required
             rows={22}
             className="form-input form-textarea"
@@ -241,6 +277,10 @@ export default function PostForm({ post = null, isEdit = false }) {
           </button>
         </div>
       </div>
+
+      {showPicker && (
+        <PhotoPicker onSelect={handlePhotoSelect} onClose={() => setShowPicker(false)} />
+      )}
     </form>
   )
 }

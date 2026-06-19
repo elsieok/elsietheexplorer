@@ -24,7 +24,11 @@ export default function AdminLogin() {
       const data = await res.json()
 
       if (res.ok) {
-        localStorage.setItem('adminToken', data.token)
+        // Bug fix: this used to also do
+        //   localStorage.setItem('adminToken', data.token)
+        // That's both unnecessary and a bit risky — the server already set
+        // an httpOnly cookie, which JS can't read and doesn't need to. The
+        // cookie just rides along automatically on future requests.
         router.push('/admin/dashboard')
       } else {
         setError(data.error || 'Invalid credentials. Please try again.')

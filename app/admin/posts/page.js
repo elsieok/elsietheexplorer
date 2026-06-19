@@ -21,10 +21,7 @@ export default function AdminPosts() {
     if (!confirm('Delete this post? This also removes its comments and cannot be undone.')) return
     setDeleting(id)
     try {
-      const r = await fetch(`/api/posts/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` },
-      })
+      const r = await fetch(`/api/posts/${id}`, { method: 'DELETE' })
       if (r.ok) setPosts(prev => prev.filter(p => p._id !== id))
     } catch { /* show nothing, keep post in list */ }
     setDeleting(null)
