@@ -4,6 +4,10 @@ import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { BarChart3, FileText, MessageSquare, Settings, LogOut, Menu, X, Mail, ExternalLink, LayoutDashboard } from "lucide-react"
 
+// Persists across client-side navigations within the same session
+// (resets on full page reload or logout), so we don't re-verify on every page.
+let hasVerifiedSession = false
+
 const navItems = [
   { name: 'Dashboard',        href: '/admin/dashboard',  icon: LayoutDashboard },
   { name: 'Posts',            href: '/admin/posts',      icon: FileText },
@@ -14,8 +18,8 @@ const navItems = [
 
 export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [authenticated, setAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [authenticated, setAuthenticated] = useState(hasVerifiedSession)
+  const [loading, setLoading] = useState(!hasVerifiedSession)
   const router = useRouter()
   const pathname = usePathname()
 
@@ -24,12 +28,19 @@ export default function AdminLayout({ children }) {
       const token = localStorage.getItem('adminToken')
       if (!token) { router.push('/admin/login'); return }
 
+      if (hasVerifiedSession) {
+        setAuthenticated(true)
+        setLoading(false)
+        return
+      }
+
       try {
         const res = await fetch('/api/admin/verify', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` },
         })
         if (!res.ok) { localStorage.removeItem('adminToken'); router.push('/admin/login'); return }
+        hasVerifiedSession = true
         setAuthenticated(true)
       } catch {
         localStorage.removeItem('adminToken')
@@ -44,6 +55,7 @@ export default function AdminLayout({ children }) {
   useEffect(() => { setSidebarOpen(false) }, [pathname])
 
   const handleLogout = () => {
+    hasVerifiedSession = false
     localStorage.removeItem('adminToken')
     router.push('/admin/login')
   }
