@@ -14,18 +14,21 @@ export default function AdminComments() {
   const [actionId, setActionId] = useState(null)
 
   useEffect(() => {
-    setLoading(true)
-    const approved = filter === 'approved' ? 'true' : 'false'
-    fetch(`/api/comments?approved=${approved}`)
-      .then(r => r.ok ? r.json() : [])
+    setLoading(true);
+
+    let status = "all";
+
+    if (filter === "approved") status = "approved";
+    if (filter === "pending") status = "pending";
+
+    fetch(`/api/comments?status=${status}`)
+      .then(r => (r.ok ? r.json() : []))
       .then(data => {
-        let arr = Array.isArray(data) ? data : []
-        if (filter === 'pending') arr = arr.filter(c => !c.approved)
-        setComments(arr)
-        setLoading(false)
+        setComments(Array.isArray(data) ? data : []);
+        setLoading(false);
       })
-      .catch(() => setLoading(false))
-  }, [filter])
+      .catch(() => setLoading(false));
+  }, [filter]);
 
   const handleApprove = async (id) => {
     setActionId(id)

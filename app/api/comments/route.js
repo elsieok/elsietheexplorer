@@ -4,26 +4,21 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
+
     const postId = searchParams.get("postId");
-    const approvedParam = searchParams.get("approved");
+    const status = searchParams.get("status");
 
-    // BUG FIX: second branch was also checking === 'true' (should be 'false')
-    let approved = undefined;
-    if (approvedParam === "true") {
-      approved = true;
-    } else if (approvedParam === "false") {
-      approved = false;
-    }
+    const comments = await CommentController.getComments({
+      status,
+      postId,
+    });
 
-    if (postId) {
-      const comments = await CommentController.getCommentsByPost(postId, approved);
-      return NextResponse.json(comments);
-    } else {
-      const comments = await CommentController.getAllComments(approved);
-      return NextResponse.json(comments);
-    }
+    return NextResponse.json(comments);
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch comments" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch comments" },
+      { status: 500 }
+    );
   }
 }
 
@@ -32,12 +27,19 @@ export async function POST(request) {
     const data = await request.json();
 
     if (!data.email || !data.content || !data.postId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     const comment = await CommentController.createComment(data);
+
     return NextResponse.json(comment, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to create comment" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create comment" },
+      { status: 500 }
+    );
   }
 }
