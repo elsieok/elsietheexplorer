@@ -193,7 +193,7 @@ export default function BlogPost({ params }) {
               </span>
               <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.8125rem", color: "var(--gray-400)" }}>
                 <Eye size={13} strokeWidth={2} />
-                {post.views} views
+                {post.views != 1 ? (views) : (view)}
               </span>
             </div>
           </div>
