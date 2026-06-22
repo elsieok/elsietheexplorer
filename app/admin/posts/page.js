@@ -92,6 +92,7 @@ export default function AdminPosts() {
                     <th style={{ width: 70 }}>Views</th>
                     <th style={{ width: 70 }}>Likes</th>
                     <th style={{ width: 110 }}>Created</th>
+                    <th style={{ width: 110 }}>Published</th>
                     <th style={{ width: 100 }}>Actions</th>
                   </tr>
                 </thead>
@@ -114,8 +115,8 @@ export default function AdminPosts() {
                         {format(new Date(post.createdAt), 'd MMM yyyy')}
                       </td>
                       { post.publishedAt ? (
-                        <td style={{ color: "var(--gray-600)", fontSize: "0.9rem" }}>{format(new Date(post.createdAt), 'd MMM yyyy')} </td> 
-                      ) : (<td style={{ color: "var(--gray-600)", fontSize: "0.9rem" }}> -- </td>
+                        <td style={{ color: "var(--gray-400)", fontSize: "0.9rem" }}>{format(new Date(post.createdAt), 'd MMM yyyy')} </td> 
+                      ) : (<td style={{ color: "var(--gray-400)", fontSize: "0.9rem" }}> -- </td>
                       )}
                       <td>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
