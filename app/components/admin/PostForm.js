@@ -6,13 +6,14 @@ import PhotoPicker from "./PhotoPicker"
 
 export default function PostForm({ post = null, isEdit = false }) {
   const [formData, setFormData] = useState({
-    title:     post?.title     || '',
-    slug:      post?.slug      || '',
-    content:   post?.content   || '',
-    excerpt:   post?.excerpt   || '',
-    author:    post?.author    || 'Elsie',
-    tags:      post?.tags?.join(', ') || '',
-    published: post?.published ?? true,
+    title:       post?.title     || '',
+    slug:        post?.slug      || '',
+    content:     post?.content   || '',
+    excerpt:     post?.excerpt   || '',
+    author:      post?.author    || 'Elsie',
+    tags:        post?.tags?.join(', ') || '',
+    published:   post?.published ?? false,
+    publishedAt: post?.publishedAt ?? null
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -29,6 +30,7 @@ export default function PostForm({ post = null, isEdit = false }) {
       ...formData,
       tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
       slug: formData.slug || formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+      publishedAt: post?.publishedAt ? ( post.publishedAt ): ( formData.published ? ( new Date() ) : ( null ) )
     }
 
     try {
@@ -244,7 +246,7 @@ export default function PostForm({ post = null, isEdit = false }) {
             style={{ fontSize: "0.9375rem", color: "var(--gray-700)", cursor: "pointer", userSelect: "none" }}
             onClick={() => setFormData(p => ({ ...p, published: !p.published }))}
           >
-            {formData.published ? 'Published' : 'Draft (not visible to readers)'}
+            {formData.published ? 'Publish' : 'Draft (not visible to readers)'}
           </label>
         </div>
 
@@ -273,7 +275,7 @@ export default function PostForm({ post = null, isEdit = false }) {
             style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
           >
             <Save size={15} />
-            {saving ? 'Saving…' : (isEdit ? 'Update post' : 'Publish post')}
+            {saving ? 'Saving…' : 'Save Post'}
           </button>
         </div>
       </div>
