@@ -114,7 +114,7 @@ export default function AdminPosts() {
                         {format(new Date(post.createdAt), 'd MMM yyyy')}
                       </td>
                       { post.publishedAt ? (
-                        <td style={{ color: "var(--gray-600)", fontSize: "0.9rem" }}>{post.publishedAt} </td> 
+                        <td style={{ color: "var(--gray-600)", fontSize: "0.9rem" }}>{format(new Date(post.createdAt), 'd MMM yyyy')} </td> 
                       ) : (<td style={{ color: "var(--gray-600)", fontSize: "0.9rem" }}> -- </td>
                       )}
                       <td>
