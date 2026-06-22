@@ -27,6 +27,22 @@ export default function AdminPosts() {
     setDeleting(null)
   }
 
+  const sortedPosts = [...posts].sort((a, b) => {
+    if (a.published !== b.published) {
+      return a.published ? 1 : -1
+    }
+    
+    const dateA = a.published
+      ? new Date(a.publishedAt)
+      : new Date(a.createdAt)
+
+    const dateB = b.published
+      ? new Date(b.publishedAt)
+      : new Date(b.createdAt)
+
+    return dateB - dateA
+  })
+
   return (
     <AdminLayout>
       <div>
@@ -97,7 +113,7 @@ export default function AdminPosts() {
                   </tr>
                 </thead>
                 <tbody>
-                  {posts.map(post => (
+                  {sortedPosts.map(post => (
                     <tr key={post._id}>
                       <td>
                         <p style={{ fontWeight: 500, color: "var(--gray-900)", margin: 0, fontSize: "0.9375rem" }}>
@@ -115,7 +131,7 @@ export default function AdminPosts() {
                         {format(new Date(post.createdAt), 'd MMM yyyy')}
                       </td>
                       { post.publishedAt ? (
-                        <td style={{ color: "var(--gray-400)", fontSize: "0.9rem" }}>{format(new Date(post.createdAt), 'd MMM yyyy')} </td> 
+                        <td style={{ color: "var(--gray-400)", fontSize: "0.9rem" }}>{format(new Date(post.publishedAt), 'd MMM yyyy')} </td> 
                       ) : (<td style={{ color: "var(--gray-400)", fontSize: "0.9rem" }}> -- </td>
                       )}
                       <td>

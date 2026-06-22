@@ -191,7 +191,7 @@ export default function BlogPost({ params }) {
                 <Clock size={13} strokeWidth={2} />
                 {readTime} min read
               </span>
-              {post.views != 1 ? (
+              {post.views !== 1 ? (
                   <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.8125rem", color: "var(--gray-400)" }}>
                     <Eye size={13} strokeWidth={2} />
                       {post.views} views
